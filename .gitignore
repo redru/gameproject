@@ -5,6 +5,7 @@
 # Eclipse
 .project
 .classpath
+.settings/
 
 # Build
 target/
