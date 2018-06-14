@@ -1,8 +1,11 @@
 package com.zen.gamelib.resources;
 
+import com.google.gson.Gson;
 import java.awt.Image;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,35 +15,35 @@ public class GameResourceLoader {
 
   private static GameResourceLoader instance;
 
+  private AssetsConfiguration assetsConfiguration;
+
   private Map<String, Image> images = new HashMap<>();
 
   private GameResourceLoader() { }
 
-  public void loadResources() throws URISyntaxException {
-    this.loadImages(new File(getClass().getResource("/assets/images").toURI()));
+  public void loadResources() {
+    // Read resources configuration file
+    this.assetsConfiguration = readAssetsConfiguration("/assets.json");
+
+    // Load resources
+    this.loadImages(this.assetsConfiguration);
   }
 
-  private void loadImages(File resource) {
-    for (File file : resource.listFiles()) {
-      if (file.isFile()) {
-        try {
-          this.images.put(file.getName(), ImageIO.read(file));
-          System.out.println("[IMAGE_LOADER] Loaded image \"" + file.getName() + "\"");
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      } else {
-        this.loadImages(file);
+  private AssetsConfiguration readAssetsConfiguration(String filePath) {
+    Gson gson = new Gson();
+    return gson.fromJson(
+        new InputStreamReader(getClass().getResourceAsStream(filePath)), AssetsConfiguration.class);
+  }
+
+  private void loadImages(AssetsConfiguration assetsConfiguration) {
+    assetsConfiguration.getImages().forEach((alias, imagePath) -> {
+      try {
+        this.images.put(alias, ImageIO.read(getClass().getResourceAsStream(imagePath)));
+        System.out.println();
+      } catch (IOException e) {
+        throw new RuntimeException(e);
       }
-    }
-  }
-
-  public static GameResourceLoader getInstance() {
-    if (GameResourceLoader.instance == null) {
-      GameResourceLoader.instance = new GameResourceLoader();
-    }
-
-    return GameResourceLoader.instance;
+    });
   }
 
   public Image getImage(String name) throws Exception {
@@ -49,6 +52,14 @@ public class GameResourceLoader {
     }
 
     return images.get(name);
+  }
+
+  public static GameResourceLoader getInstance() {
+    if (GameResourceLoader.instance == null) {
+      GameResourceLoader.instance = new GameResourceLoader();
+    }
+
+    return GameResourceLoader.instance;
   }
 
 }

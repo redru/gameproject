@@ -13,7 +13,7 @@ public class LoadImageApp extends Component {
 	public LoadImageApp() throws Exception {
 		gameResourceLoader = GameResourceLoader.getInstance();
 
-		ImageIcon icon = new ImageIcon(gameResourceLoader.getImage("title_screen_background.jpeg"));
+		ImageIcon icon = new ImageIcon(gameResourceLoader.getImage("title_bg"));
 		label = new JLabel(icon);
 	}
 
