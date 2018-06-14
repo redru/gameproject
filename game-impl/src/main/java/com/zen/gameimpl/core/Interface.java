@@ -1,4 +1,4 @@
-package com.zen.core;
+package com.zen.gameimpl.core;
 
 import javax.swing.JFrame;
 
@@ -6,7 +6,7 @@ public class Interface {
 
 	private JFrame jFrame;
 
-	public Interface() {
+	public Interface() throws Exception {
 		jFrame = new JFrame("Snake Test");
 		jFrame.setSize(500, 500);
 
