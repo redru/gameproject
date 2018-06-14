@@ -27,7 +27,7 @@
             <configuration>
               <archive>
                 <manifest>
-                  <mainClass>com.zen.core.Main</mainClass>
+                  <mainClass>com.zen.gameimpl.core.Main</mainClass>
                 </manifest>
               </archive>
               <descriptorRefs>
@@ -39,5 +39,13 @@
       </plugin>
     </plugins>
   </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.zen</groupId>
+      <artifactId>game-lib</artifactId>
+      <version>0.0.1</version>
+    </dependency>
+  </dependencies>
 
 </project>
