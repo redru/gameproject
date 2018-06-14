@@ -2,11 +2,8 @@ package com.zen.gamelib.resources;
 
 import com.google.gson.Gson;
 import java.awt.Image;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
