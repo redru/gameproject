@@ -35,6 +35,10 @@ public class GameEngine {
     return this.gameWindow;
   }
 
+  public GameConfiguration getGameConfiguration() {
+    return this.gameConfiguration;
+  }
+
   private GameConfiguration createGameConfiguration() {
     GameConfiguration gameConfiguration = new GameConfiguration();
     gameConfiguration.setTitle("Game - [500 x 500]");

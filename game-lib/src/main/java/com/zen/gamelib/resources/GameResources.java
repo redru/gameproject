@@ -3,6 +3,7 @@ package com.zen.gamelib.resources;
 import com.google.gson.Gson;
 import java.awt.Image;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,9 +42,9 @@ public class GameResources {
    */
   private void loadImages(AssetsConfiguration assetsConfiguration) {
     assetsConfiguration.getImages().forEach((alias, imagePath) -> {
-      try {
-        System.out.println("[Image] Alias: " + alias + " Path: " + imagePath + " ... loaded");
-        this.images.put(alias, ImageIO.read(getClass().getResourceAsStream(imagePath)));
+      try (InputStream resourceStream = getClass().getResourceAsStream(imagePath)) {
+        this.images.put(alias, ImageIO.read(resourceStream));
+        System.out.println("[Image] Alias: " + alias + " - Path: " + imagePath + " ... loaded");
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
