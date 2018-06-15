@@ -19,7 +19,10 @@ public class Main {
 		configuration.setTitle("Snake Test");
 		configuration.setGameWindowDimension(new Dimension(500, 500));
 
-		GameEngine.getInstance().initialize(configuration);
+		GameEngine engine = GameEngine.getInstance();
+		engine.initialize(configuration);
+		engine.start();
+
 		new Main();
 	}
 

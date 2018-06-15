@@ -23,6 +23,10 @@ public class GameEngine {
     this.gameWindow.initialize(gameConfiguration.getTitle(), gameConfiguration.getGameWindowDimension());
   }
 
+  public void start() {
+    this.gameWindow.show();
+  }
+
   public GameResources getGameResources() {
     return this.gameResources;
   }
