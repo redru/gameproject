@@ -8,18 +8,16 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
 
-public class GameResourceLoader {
-
-  private static GameResourceLoader instance;
+public class GameResources {
 
   private AssetsConfiguration assetsConfiguration;
   private Map<String, Image> images = new HashMap<>();
 
-  private GameResourceLoader() { }
+  public GameResources() { }
 
-  public void loadResources() {
+  public void loadResources(String configurationFile) {
     // Read resources configuration file
-    this.assetsConfiguration = readAssetsConfiguration("/assets.json");
+    this.assetsConfiguration = readAssetsConfiguration(configurationFile);
 
     // Load resources
     this.loadImages(this.assetsConfiguration);
@@ -66,18 +64,6 @@ public class GameResourceLoader {
     }
 
     return images.get(aliasName);
-  }
-
-  /**
-   * Get the GameResourceLoader instance.
-   * @return GameResourceLoader instance.
-   */
-  public static GameResourceLoader getInstance() {
-    if (GameResourceLoader.instance == null) {
-      GameResourceLoader.instance = new GameResourceLoader();
-    }
-
-    return GameResourceLoader.instance;
   }
 
 }
