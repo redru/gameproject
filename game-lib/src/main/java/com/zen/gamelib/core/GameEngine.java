@@ -6,6 +6,8 @@ import java.awt.Dimension;
 
 public class GameEngine {
 
+  private boolean running = false;
+
   private GameConfiguration gameConfiguration = new GameConfiguration();
   private GameResources gameResources = new GameResources();
   private GameWindow gameWindow = new GameWindow();
@@ -17,6 +19,7 @@ public class GameEngine {
 
   public void initialize(GameConfiguration gameConfiguration) {
     this.validateGameConfiguration(gameConfiguration);
+    this.gameConfiguration = gameConfiguration;
     System.out.println(gameConfiguration);
 
     this.gameResources.loadResources(gameConfiguration.getResourcesFile());
@@ -25,18 +28,32 @@ public class GameEngine {
 
   public void start() {
     this.gameWindow.show();
+
+    this.running = true;
+
+    long lastTime = System.nanoTime();
+    long currentTime;
+
+    while (running) {
+      currentTime = System.nanoTime();
+
+      if (currentTime - lastTime < this.gameConfiguration.getFpsTime()) {
+        continue;
+      }
+
+      this.update();
+      this.render();
+
+      lastTime = currentTime;
+    }
   }
 
-  public GameResources getGameResources() {
-    return this.gameResources;
+  private void update() {
+
   }
 
-  public GameWindow getGameWindow() {
-    return this.gameWindow;
-  }
+  private void render() {
 
-  public GameConfiguration getGameConfiguration() {
-    return this.gameConfiguration;
   }
 
   private GameConfiguration createGameConfiguration() {
@@ -44,6 +61,7 @@ public class GameEngine {
     gameConfiguration.setTitle("Game - [500 x 500]");
     gameConfiguration.setGameWindowDimension(new Dimension(500, 500));
     gameConfiguration.setResourcesFile("/assets.json");
+    gameConfiguration.setFps(30);
 
     return gameConfiguration;
   }
@@ -60,6 +78,22 @@ public class GameEngine {
     if (gameConfiguration.getResourcesFile() == null) {
       gameConfiguration.setResourcesFile("/assets.json");
     }
+
+    if (gameConfiguration.getFps() < 0 || gameConfiguration.getFps() > 120) {
+      gameConfiguration.setFps(30);
+    }
+  }
+
+  public GameResources getGameResources() {
+    return this.gameResources;
+  }
+
+  public GameWindow getGameWindow() {
+    return this.gameWindow;
+  }
+
+  public GameConfiguration getGameConfiguration() {
+    return this.gameConfiguration;
   }
 
   // Singleton Section ------------------------------------

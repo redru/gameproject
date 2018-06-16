@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
-public class GameObject implements Renderable, Updateable {
+public class GameObject {
 
   protected float posX;
   protected float posY;
@@ -20,12 +20,10 @@ public class GameObject implements Renderable, Updateable {
     this.image = image;
   }
 
-  @Override
   public void render(Graphics2D graphics) {
     graphics.drawImage(this.image, (int) posX, (int) posY, null);
   }
 
-  @Override
   public void update() { }
 
   public float getPosX() {

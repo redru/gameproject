@@ -7,6 +7,8 @@ public class GameConfiguration {
   private String title;
   private Dimension gameWindowDimension;
   private String resourcesFile;
+  private int fps;
+  private long fpsTime;
 
   public GameConfiguration() { }
 
@@ -14,7 +16,9 @@ public class GameConfiguration {
   public String toString() {
     return "[CONFIGURATION] Title: " + title
         + "\n[CONFIGURATION] Window Dimension: " + gameWindowDimension.getWidth() + " x " + gameWindowDimension.getHeight()
-        + "\n[CONFIGURATION] Resources: " + resourcesFile;
+        + "\n[CONFIGURATION] Resources: " + resourcesFile
+        + "\n[CONFIGURATION] FPS: " + fps
+        + "\n[CONFIGURATION] FPS Time: " + fpsTime;
   }
 
   public String getTitle() {
@@ -39,6 +43,19 @@ public class GameConfiguration {
 
   public void setResourcesFile(String resourcesFile) {
     this.resourcesFile = resourcesFile;
+  }
+
+  public int getFps() {
+    return fps;
+  }
+
+  public void setFps(int fps) {
+    this.fps = fps;
+    this.fpsTime = 1000000000 / fps;
+  }
+
+  public long getFpsTime() {
+    return fpsTime;
   }
 
 }

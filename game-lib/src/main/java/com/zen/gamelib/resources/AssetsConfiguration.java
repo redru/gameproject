@@ -10,8 +10,4 @@ class AssetsConfiguration {
     return images;
   }
 
-  public void setImages(Map<String, String> images) {
-    this.images = images;
-  }
-
 }
