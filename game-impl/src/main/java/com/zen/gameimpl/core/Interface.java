@@ -1,6 +1,7 @@
 package com.zen.gameimpl.core;
 
 import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 public class Interface {
 
@@ -15,7 +16,7 @@ public class Interface {
 		jFrame.add(windowElements);
 
 		jFrame.setVisible(true);
-		jFrame.setDefaultCloseOperation(jFrame.EXIT_ON_CLOSE);
+		jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 
 }

@@ -8,6 +8,8 @@ public class GameEngine {
 
   private boolean running = false;
 
+  private boolean paused = false;
+
   private GameConfiguration gameConfiguration = new GameConfiguration();
   private GameResources gameResources = new GameResources();
   private GameWindow gameWindow = new GameWindow();
@@ -24,6 +26,7 @@ public class GameEngine {
 
     this.gameResources.loadResources(gameConfiguration.getResourcesFile());
     this.gameWindow.initialize(gameConfiguration.getTitle(), gameConfiguration.getGameWindowDimension());
+    this.gameWindow.setOnCloseEvent(() -> this.running = false);
   }
 
   public void start() {
@@ -34,18 +37,33 @@ public class GameEngine {
     long lastTime = System.nanoTime();
     long currentTime;
 
-    while (running) {
+    while (this.running) {
+      // Exit if gameWindow was closed
+      if (this.gameWindow.isClosed()) {
+        this.running = false;
+        continue;
+      }
+
       currentTime = System.nanoTime();
 
+      // Do nothing if fps time was not passed
       if (currentTime - lastTime < this.gameConfiguration.getFpsTime()) {
         continue;
       }
 
-      this.update();
+      // Update game if it was not paused
+      if (!paused) {
+        this.update();
+      }
+
+      // Always render game
       this.render();
 
       lastTime = currentTime;
     }
+
+    // Shutdown engine and then exit
+    this.shutdownGameEngine();
   }
 
   private void update() {
@@ -54,6 +72,10 @@ public class GameEngine {
 
   private void render() {
 
+  }
+
+  private void shutdownGameEngine() {
+    System.out.println("[ENGINE] Game is closing");
   }
 
   private GameConfiguration createGameConfiguration() {
@@ -94,6 +116,22 @@ public class GameEngine {
 
   public GameConfiguration getGameConfiguration() {
     return this.gameConfiguration;
+  }
+
+  public boolean isRunning() {
+    return this.running;
+  }
+
+  public void setRunning(boolean running) {
+    this.running = running;
+  }
+
+  public boolean isPaused() {
+    return this.paused;
+  }
+
+  public void setPaused(boolean paused) {
+    this.paused = paused;
   }
 
   // Singleton Section ------------------------------------

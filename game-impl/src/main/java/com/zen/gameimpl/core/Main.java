@@ -18,11 +18,11 @@ public class Main {
     GameConfiguration configuration = new GameConfiguration();
     configuration.setTitle("Snake Test");
     configuration.setGameWindowDimension(new Dimension(500, 500));
-    configuration.setFps(1);
+    configuration.setFps(30);
 
     GameEngine engine = GameEngine.getInstance();
     engine.initialize(configuration);
-    engine.start();
+//    engine.start();
 
     new Main();
   }
