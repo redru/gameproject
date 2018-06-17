@@ -25,14 +25,14 @@ public class GameWindow {
 
     this.frame.setTitle(title);
     this.frame.setSize(size);
-    this.frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    this.frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
   }
 
   public void setOnCloseEvent(GameWindowCloseCallback callback) {
     this.frame.addWindowListener(new WindowAdapter() {
       @Override
-      public void windowClosed(WindowEvent e) {
-        super.windowClosed(e);
+      public void windowClosing(WindowEvent e) {
+        super.windowClosing(e);
         callback.onClose();
       }
     });
@@ -46,6 +46,10 @@ public class GameWindow {
   public void show() {
     this.frame.setVisible(true);
     this.context = (Graphics2D) this.frame.getGraphics();
+  }
+
+  public void close() {
+    this.frame.dispose();
   }
 
   public boolean isClosed() {

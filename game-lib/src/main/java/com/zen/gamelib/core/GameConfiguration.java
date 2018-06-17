@@ -9,6 +9,7 @@ public class GameConfiguration {
   private String resourcesFile;
   private int fps;
   private long fpsTime;
+  private float fpsTimeInSeconds;
   private int concurrentObjects;
 
   public GameConfiguration() { }
@@ -19,7 +20,7 @@ public class GameConfiguration {
         + "\n[CONFIGURATION] Window Dimension: " + this.gameWindowDimension.getWidth() + " x " + this.gameWindowDimension.getHeight()
         + "\n[CONFIGURATION] Resources: " + this.resourcesFile
         + "\n[CONFIGURATION] FPS: " + this.fps
-        + "\n[CONFIGURATION] FPS Time: " + this.fpsTime + " ns"
+        + "\n[CONFIGURATION] FPS Time: " + this.fpsTime + " ns (" + this.fpsTimeInSeconds + " s)"
         + "\n[CONFIGURATION] Total Objects: " + this.concurrentObjects;
   }
 
@@ -54,10 +55,15 @@ public class GameConfiguration {
   public void setFps(int fps) {
     this.fps = fps;
     this.fpsTime = 1000000000 / fps;
+    this.fpsTimeInSeconds = fpsTime / 1000000000F;
   }
 
   public long getFpsTime() {
     return fpsTime;
+  }
+
+  public float getFpsTimeInSeconds() {
+    return this.fpsTimeInSeconds;
   }
 
   public int getConcurrentObjects() {

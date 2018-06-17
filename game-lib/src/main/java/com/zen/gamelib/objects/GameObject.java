@@ -1,8 +1,10 @@
 package com.zen.gamelib.objects;
 
+import com.zen.gamelib.core.GameEngine;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import org.apache.commons.math3.linear.RealVector;
 
 public class GameObject {
 
@@ -11,8 +13,10 @@ public class GameObject {
   protected int id;
   protected String name;
   protected boolean active = false;
-  protected float posX = 0;
-  protected float posY = 0;
+  protected RealVector position;
+  protected RealVector direction;
+  protected float velocity;
+  protected float effectiveVelocity;
   protected Image image;
 
   protected RenderCallback renderCallback = (context) -> { };
@@ -39,10 +43,6 @@ public class GameObject {
     return id;
   }
 
-  public void setId(int id) {
-    this.id = id;
-  }
-
   public String getName() {
     return name;
   }
@@ -59,20 +59,33 @@ public class GameObject {
     this.active = active;
   }
 
-  public float getPosX() {
-    return posX;
+  public RealVector getPosition() {
+    return position;
   }
 
-  public void setPosX(float posX) {
-    this.posX = posX;
+  public void setPosition(RealVector position) {
+    this.position = position;
   }
 
-  public float getPosY() {
-    return posY;
+  public RealVector getDirection() {
+    return direction;
   }
 
-  public void setPosY(float posY) {
-    this.posY = posY;
+  public void setDirection(RealVector direction) {
+    this.direction = direction;
+  }
+
+  public float getVelocity() {
+    return velocity;
+  }
+
+  public void setVelocity(float velocity) {
+    this.velocity = velocity;
+    this.effectiveVelocity = velocity * GameEngine.getInstance().getGameConfiguration().getFpsTimeInSeconds();
+  }
+
+  public float getEffectiveVelocity() {
+    return this.effectiveVelocity;
   }
 
   public Image getImage() {

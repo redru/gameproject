@@ -102,6 +102,7 @@ public class GameEngine {
 
   private void shutdownGameEngine() {
     System.out.println("[ENGINE] Game is closing");
+    this.gameWindow.close();
   }
 
   private GameConfiguration createGameConfiguration() {
