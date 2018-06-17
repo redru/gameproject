@@ -9,16 +9,18 @@ public class GameConfiguration {
   private String resourcesFile;
   private int fps;
   private long fpsTime;
+  private int concurrentObjects;
 
   public GameConfiguration() { }
 
   @Override
   public String toString() {
-    return "[CONFIGURATION] Title: " + title
-        + "\n[CONFIGURATION] Window Dimension: " + gameWindowDimension.getWidth() + " x " + gameWindowDimension.getHeight()
-        + "\n[CONFIGURATION] Resources: " + resourcesFile
-        + "\n[CONFIGURATION] FPS: " + fps
-        + "\n[CONFIGURATION] FPS Time: " + fpsTime;
+    return "[CONFIGURATION] Title: " + this.title
+        + "\n[CONFIGURATION] Window Dimension: " + this.gameWindowDimension.getWidth() + " x " + this.gameWindowDimension.getHeight()
+        + "\n[CONFIGURATION] Resources: " + this.resourcesFile
+        + "\n[CONFIGURATION] FPS: " + this.fps
+        + "\n[CONFIGURATION] FPS Time: " + this.fpsTime
+        + "\n[CONFIGURATION] Total Objects: " + this.concurrentObjects;
   }
 
   public String getTitle() {
@@ -56,6 +58,14 @@ public class GameConfiguration {
 
   public long getFpsTime() {
     return fpsTime;
+  }
+
+  public int getConcurrentObjects() {
+    return concurrentObjects;
+  }
+
+  public void setConcurrentObjects(int concurrentObjects) {
+    this.concurrentObjects = concurrentObjects;
   }
 
 }

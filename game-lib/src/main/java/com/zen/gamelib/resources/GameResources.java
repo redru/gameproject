@@ -44,7 +44,7 @@ public class GameResources {
     assetsConfiguration.getImages().forEach((alias, imagePath) -> {
       try (InputStream resourceStream = getClass().getResourceAsStream(imagePath)) {
         this.images.put(alias, ImageIO.read(resourceStream));
-        System.out.println("[Image] Alias: " + alias + " - Path: " + imagePath + " ... loaded");
+        System.out.println("[RESOURCE] (Image) Alias: " + alias + " - Path: " + imagePath + " ... loaded");
       } catch (IOException e) {
         throw new RuntimeException(e);
       }

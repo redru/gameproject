@@ -1,14 +1,21 @@
 package com.zen.gamelib.core;
 
 import com.zen.gamelib.graphics.GameWindow;
+import com.zen.gamelib.objects.GameObject;
 import com.zen.gamelib.resources.GameResources;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.util.Dictionary;
+import java.util.Hashtable;
 
 public class GameEngine {
 
   private boolean running = false;
-
   private boolean paused = false;
+
+  private GameObject[] objects;
+  private Dictionary<String, Integer> objectsMap;
 
   private GameConfiguration gameConfiguration = new GameConfiguration();
   private GameResources gameResources = new GameResources();
@@ -27,6 +34,7 @@ public class GameEngine {
     this.gameResources.loadResources(gameConfiguration.getResourcesFile());
     this.gameWindow.initialize(gameConfiguration.getTitle(), gameConfiguration.getGameWindowDimension());
     this.gameWindow.setOnCloseEvent(() -> this.running = false);
+    this.initObjects();
   }
 
   public void start() {
@@ -66,11 +74,30 @@ public class GameEngine {
     this.shutdownGameEngine();
   }
 
-  private void update() {
+  private void initObjects() {
+    int totalObjects = this.gameConfiguration.getConcurrentObjects();
+    this.objects = new GameObject[totalObjects];
+    this.objectsMap = new Hashtable<>(totalObjects);
 
+    for (int i = 0; i < totalObjects; i++) {
+      this.objects[i] = new GameObject();
+    }
+  }
+
+  private void update() {
+    for (GameObject object : this.objects) {
+      object.update();
+    }
   }
 
   private void render() {
+    this.gameWindow.clear();
+
+    Graphics2D context = this.gameWindow.getContext();
+
+    for (GameObject object : this.objects) {
+      object.render(context);
+    }
 
   }
 
@@ -84,6 +111,7 @@ public class GameEngine {
     gameConfiguration.setGameWindowDimension(new Dimension(500, 500));
     gameConfiguration.setResourcesFile("/assets.json");
     gameConfiguration.setFps(30);
+    gameConfiguration.setConcurrentObjects(10);
 
     return gameConfiguration;
   }
@@ -104,6 +132,36 @@ public class GameEngine {
     if (gameConfiguration.getFps() < 0 || gameConfiguration.getFps() > 120) {
       gameConfiguration.setFps(30);
     }
+
+    if (gameConfiguration.getConcurrentObjects() < 0) {
+      gameConfiguration.setConcurrentObjects(10);
+    }
+  }
+
+  public void addGameObject(GameObject object) throws Exception {
+    object.setActive(true);
+
+    int position = this.getInactiveObjectPosition();
+    GameObject inactiveGameObject = this.objects[position];
+    this.objectsMap.remove(inactiveGameObject.getId());
+    this.objects[position] = object;
+    this.objectsMap.put(object.getId(), position);
+  }
+
+  public GameObject getObjectById(String id) {
+    return this.objects[this.objectsMap.get(id)];
+  }
+
+  public int getInactiveObjectPosition() throws Exception {
+    for (int i = 0; i < this.objects.length; i++) {
+      GameObject object = this.objects[i];
+
+      if (!object.isActive()) {
+        return i;
+      }
+    }
+
+    throw new Exception("Reached active object limit: " + this.gameConfiguration.getConcurrentObjects());
   }
 
   public GameResources getGameResources() {
