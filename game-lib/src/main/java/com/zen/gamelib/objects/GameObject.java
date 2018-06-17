@@ -6,24 +6,21 @@ import java.awt.image.BufferedImage;
 
 public class GameObject {
 
-  protected String id;
+  private static int ID_COUNT = 0;
+
+  protected int id;
+  protected String name;
   protected boolean active = false;
-  protected float posX;
-  protected float posY;
+  protected float posX = 0;
+  protected float posY = 0;
   protected Image image;
 
-  protected RenderCallback renderCallback = (context) -> {};
-  protected UpdateCallback updateCallback = () -> {};
+  protected RenderCallback renderCallback = (context) -> { };
+  protected UpdateCallback updateCallback = () -> { };
 
-  public GameObject() {
-    this(0, 0, new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB));
-  }
-
-  public GameObject(float posX, float posY, Image image) {
-    this.posX = posX;
-    this.posY = posY;
-    this.image = image;
-    this.id = String.valueOf(Math.random() * 1000000);
+  private GameObject(int id, String name) {
+    this.id = id;
+    this.name = name;
   }
 
   public void render(Graphics2D context) {
@@ -34,12 +31,24 @@ public class GameObject {
     updateCallback.update();
   }
 
-  public String getId() {
+  public static GameObject create() {
+    return new GameObject(ID_COUNT++, "GameObject" + ID_COUNT);
+  }
+
+  public int getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(int id) {
     this.id = id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   public boolean isActive() {

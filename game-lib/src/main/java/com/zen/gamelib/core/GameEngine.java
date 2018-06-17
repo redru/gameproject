@@ -3,7 +3,6 @@ package com.zen.gamelib.core;
 import com.zen.gamelib.graphics.GameWindow;
 import com.zen.gamelib.objects.GameObject;
 import com.zen.gamelib.resources.GameResources;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.util.Dictionary;
@@ -80,7 +79,7 @@ public class GameEngine {
     this.objectsMap = new Hashtable<>(totalObjects);
 
     for (int i = 0; i < totalObjects; i++) {
-      this.objects[i] = new GameObject();
+      this.objects[i] = GameObject.create();
     }
   }
 
@@ -145,18 +144,16 @@ public class GameEngine {
     GameObject inactiveGameObject = this.objects[position];
     this.objectsMap.remove(inactiveGameObject.getId());
     this.objects[position] = object;
-    this.objectsMap.put(object.getId(), position);
+    this.objectsMap.put(object.getName(), position);
   }
 
-  public GameObject getObjectById(String id) {
+  public GameObject getObjectByName(String id) {
     return this.objects[this.objectsMap.get(id)];
   }
 
   public int getInactiveObjectPosition() throws Exception {
     for (int i = 0; i < this.objects.length; i++) {
-      GameObject object = this.objects[i];
-
-      if (!object.isActive()) {
+      if (!this.objects[i].isActive()) {
         return i;
       }
     }

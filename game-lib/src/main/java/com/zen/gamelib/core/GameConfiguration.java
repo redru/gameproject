@@ -19,7 +19,7 @@ public class GameConfiguration {
         + "\n[CONFIGURATION] Window Dimension: " + this.gameWindowDimension.getWidth() + " x " + this.gameWindowDimension.getHeight()
         + "\n[CONFIGURATION] Resources: " + this.resourcesFile
         + "\n[CONFIGURATION] FPS: " + this.fps
-        + "\n[CONFIGURATION] FPS Time: " + this.fpsTime
+        + "\n[CONFIGURATION] FPS Time: " + this.fpsTime + " ns"
         + "\n[CONFIGURATION] Total Objects: " + this.concurrentObjects;
   }
 

@@ -27,13 +27,9 @@ public class Main {
     GameEngine engine = GameEngine.getInstance();
     engine.initialize(configuration);
 
-    GameObject obj = new GameObject();
-    obj.setId("MOCK");
-
-    obj.setUpdateCallback(() -> {
-      obj.setPosX(obj.getPosX() + 1);
-    });
-
+    GameObject obj = GameObject.create();
+    obj.setName("MOCK");
+    obj.setUpdateCallback(() -> obj.setPosX(obj.getPosX() + 1));
     obj.setRenderCallback(context -> {
       context.setColor(Color.WHITE);
       context.fillRect((int) obj.getPosX(), 40, 10, 10);
@@ -41,7 +37,7 @@ public class Main {
 
     engine.addGameObject(obj);
 
-    engine.start();
+//    engine.start();
     // --------------------------------------------------------------
 
     new Main();
