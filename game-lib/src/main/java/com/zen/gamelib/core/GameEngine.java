@@ -108,6 +108,7 @@ public class GameEngine {
       object.render(context);
     }
 
+    this.gameWindow.render();
   }
 
   private void shutdownGameEngine() {

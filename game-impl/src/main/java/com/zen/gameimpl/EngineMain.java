@@ -13,7 +13,7 @@ public class EngineMain {
   public static void main(String[] args) {
     GameConfiguration configuration = new GameConfiguration();
     configuration.setTitle("Snake Test");
-    configuration.setGameWindowDimension(new Dimension(1600, 800));
+    configuration.setGameWindowDimension(new Dimension(1600, 900));
     configuration.setFps(30);
     configuration.setConcurrentObjects(100);
 
@@ -24,7 +24,7 @@ public class EngineMain {
       try {
         GameObject greenSquare = GameObject.create();
         greenSquare.setName("MOCK_" + i);
-        greenSquare.setPosition(new ArrayRealVector(new double[]{ Math.random() * 1600, Math.random() * 800 }));
+        greenSquare.setPosition(new ArrayRealVector(new double[]{ Math.random() * 1600, Math.random() * 900 }));
         greenSquare.setDirection(new ArrayRealVector(new double[]{ Math.random(), Math.random() }));
         greenSquare.setVelocity(100);
 

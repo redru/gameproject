@@ -1,19 +1,23 @@
 package com.zen.gamelib.graphics;
 
+import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 public class GameWindow {
 
-  private volatile boolean closed = false;
-
   private volatile JFrame frame = new JFrame();
-  private Graphics2D context;
+  private volatile Canvas canvas = new Canvas();
+  private volatile BufferStrategy buffer;
+  private volatile Graphics2D context;
+
+  private volatile boolean closed = false;
   private String title;
   private Dimension size;
 
@@ -24,8 +28,12 @@ public class GameWindow {
     this.size = size;
 
     this.frame.setTitle(title);
-    this.frame.setSize(size);
     this.frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+
+    this.canvas.setSize(size);
+
+    this.frame.add(canvas);
+    this.frame.pack();
   }
 
   public void setOnCloseEvent(GameWindowCloseCallback callback) {
@@ -39,13 +47,25 @@ public class GameWindow {
   }
 
   public void clear() {
-    this.context.setColor(Color.BLACK);
-    this.context.fillRect(0, 0, this.size.width, this.size.height);
+    try {
+      this.context.setColor(Color.BLACK);
+      this.context.fillRect(0, 0, this.size.width, this.size.height);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void render() {
+    if(!buffer.contentsLost()) {
+      buffer.show();
+    }
   }
 
   public void show() {
     this.frame.setVisible(true);
-    this.context = (Graphics2D) this.frame.getGraphics();
+    this.canvas.createBufferStrategy(2);
+    this.buffer = canvas.getBufferStrategy();
+    this.context = (Graphics2D) buffer.getDrawGraphics();
   }
 
   public void close() {
