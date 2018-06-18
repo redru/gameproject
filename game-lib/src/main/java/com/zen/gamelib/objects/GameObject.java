@@ -3,6 +3,8 @@ package com.zen.gamelib.objects;
 import com.zen.gamelib.core.GameEngine;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import org.apache.commons.math3.linear.RealVector;
 
 public class GameObject {
@@ -11,12 +13,14 @@ public class GameObject {
 
   protected int id;
   protected String name;
-  protected boolean active = false;
+  protected boolean active;
   protected RealVector position;
   protected RealVector direction;
   protected float velocity;
   protected float effectiveVelocity;
+
   protected Image image;
+  protected Dictionary<String, Object> properties = new Hashtable<>(100);
 
   protected RenderCallback renderCallback = (context) -> { };
   protected UpdateCallback updateCallback = () -> { };
@@ -24,6 +28,14 @@ public class GameObject {
   private GameObject(int id, String name) {
     this.id = id;
     this.name = name;
+  }
+
+  public void addProperty(String key, Object value) {
+    this.properties.put(key, value);
+  }
+
+  public Object getProperty(String key) {
+    return this.properties.get(key);
   }
 
   public void render(Graphics2D context) {
@@ -93,6 +105,10 @@ public class GameObject {
 
   public void setImage(Image image) {
     this.image = image;
+  }
+
+  public Dictionary<String, Object> getProperties() {
+    return properties;
   }
 
   public RenderCallback getRenderCallback() {

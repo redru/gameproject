@@ -19,7 +19,6 @@ public class Main {
     configuration.setTitle("Snake Test");
     configuration.setGameWindowDimension(new Dimension(1600, 900));
     configuration.setFps(30);
-    configuration.setConcurrentObjects(100);
 
     GameEngine engine = GameEngine.getInstance();
     engine.initialize(configuration);

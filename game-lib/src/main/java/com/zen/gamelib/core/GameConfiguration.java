@@ -10,7 +10,6 @@ public class GameConfiguration {
   private int fps;
   private long fpsTime;
   private float fpsTimeInSeconds;
-  private int concurrentObjects;
 
   public GameConfiguration() { }
 
@@ -20,8 +19,7 @@ public class GameConfiguration {
         + "\n[CONFIGURATION] Window Dimension: " + this.gameWindowDimension.getWidth() + " x " + this.gameWindowDimension.getHeight()
         + "\n[CONFIGURATION] Resources: " + this.resourcesFile
         + "\n[CONFIGURATION] FPS: " + this.fps
-        + "\n[CONFIGURATION] FPS Time: " + this.fpsTime + " ns (" + this.fpsTimeInSeconds + " s)"
-        + "\n[CONFIGURATION] Total Objects: " + this.concurrentObjects;
+        + "\n[CONFIGURATION] FPS Time: " + this.fpsTime + " ns (" + this.fpsTimeInSeconds + " s)";
   }
 
   public String getTitle() {
@@ -64,14 +62,6 @@ public class GameConfiguration {
 
   public float getFpsTimeInSeconds() {
     return this.fpsTimeInSeconds;
-  }
-
-  public int getConcurrentObjects() {
-    return concurrentObjects;
-  }
-
-  public void setConcurrentObjects(int concurrentObjects) {
-    this.concurrentObjects = concurrentObjects;
   }
 
 }
