@@ -4,6 +4,6 @@ import java.awt.Graphics2D;
 
 public interface RenderCallback {
 
-  void render(Graphics2D context);
+  void onRender(Graphics2D context);
 
 }

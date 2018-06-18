@@ -20,6 +20,9 @@ public class GameEngine {
   private GameResources gameResources = new GameResources();
   private GameWindow gameWindow = new GameWindow();
 
+  private PreUpdateCallback preUpdateCallback = () -> { };
+  private PostUpdateCallback postUpdateCallback = () -> { };
+
   public void initialize() {
     this.gameConfiguration = this.createGameConfiguration();
     this.initialize(this.gameConfiguration);
@@ -58,12 +61,19 @@ public class GameEngine {
         continue;
       }
 
+      // Update Process -------------------------
+      // Pre Update
+      this.preUpdateCallback.onPreUpdate();
+
       // Update game if it was not paused
       if (!paused) {
         this.update();
       }
 
-      // Always render game
+      // Post Update
+      this.postUpdateCallback.onPostUpdate();
+
+      // Render Process -------------------------
       this.render();
 
       lastTime = currentTime;
@@ -162,18 +172,6 @@ public class GameEngine {
     throw new Exception("Reached active object limit: " + this.gameConfiguration.getConcurrentObjects());
   }
 
-  public GameResources getGameResources() {
-    return this.gameResources;
-  }
-
-  public GameWindow getGameWindow() {
-    return this.gameWindow;
-  }
-
-  public GameConfiguration getGameConfiguration() {
-    return this.gameConfiguration;
-  }
-
   public boolean isRunning() {
     return this.running;
   }
@@ -188,6 +186,26 @@ public class GameEngine {
 
   public void setPaused(boolean paused) {
     this.paused = paused;
+  }
+
+  public GameResources getGameResources() {
+    return this.gameResources;
+  }
+
+  public GameWindow getGameWindow() {
+    return this.gameWindow;
+  }
+
+  public GameConfiguration getGameConfiguration() {
+    return this.gameConfiguration;
+  }
+
+  public void setPreUpdateCallback(PreUpdateCallback preUpdateCallback) {
+    this.preUpdateCallback = preUpdateCallback;
+  }
+
+  public void setPostUpdateCallback(PostUpdateCallback postUpdateCallback) {
+    this.postUpdateCallback = postUpdateCallback;
   }
 
   // Singleton Section ------------------------------------

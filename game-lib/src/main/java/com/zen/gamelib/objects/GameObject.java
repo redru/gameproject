@@ -3,7 +3,6 @@ package com.zen.gamelib.objects;
 import com.zen.gamelib.core.GameEngine;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 import org.apache.commons.math3.linear.RealVector;
 
 public class GameObject {
@@ -28,11 +27,11 @@ public class GameObject {
   }
 
   public void render(Graphics2D context) {
-    renderCallback.render(context);
+    renderCallback.onRender(context);
   }
 
   public void update() {
-    updateCallback.update();
+    updateCallback.onUpdate();
   }
 
   public static GameObject create() {
