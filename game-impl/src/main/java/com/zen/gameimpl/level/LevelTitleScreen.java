@@ -3,9 +3,6 @@ package com.zen.gameimpl.level;
 import com.zen.gamelib.core.GameEngine;
 import com.zen.gamelib.level.Level;
 import com.zen.gamelib.objects.GameObject;
-import java.awt.Color;
-import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.linear.RealVector;
 
 public class LevelTitleScreen extends Level {
 
