@@ -2,19 +2,16 @@ package com.zen.gamelib.level;
 
 import com.zen.gamelib.objects.GameObject;
 
-public class Level {
+public abstract class Level {
 
   protected String name;
   protected int concurrentObjects;
   protected GameObject[] gameObjects;
   protected LoadCallback loadCallback = () -> { };
 
-  public Level() {
-    this("NONE");
-  }
-
-  public Level(String name) {
+  public Level(String name, int concurrentObjects) {
     this.name = name;
+    this.concurrentObjects = concurrentObjects;
   }
 
   public void load() {

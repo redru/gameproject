@@ -9,8 +9,7 @@ import org.apache.commons.math3.linear.RealVector;
 public class LevelOne extends Level {
 
   public LevelOne() {
-    super("Level 1 (Work in progress)");
-    super.concurrentObjects = 30;
+    super("Level 1 (Work in progress)", 30);
   }
 
   @Override

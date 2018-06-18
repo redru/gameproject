@@ -1,5 +1,6 @@
 package com.zen.gameimpl;
 
+import com.zen.gameimpl.level.LevelOne;
 import com.zen.gameimpl.level.LevelTitleScreen;
 import com.zen.gamelib.core.GameConfiguration;
 import com.zen.gamelib.core.GameEngine;
@@ -16,6 +17,7 @@ public class EngineMain {
     GameEngine engine = GameEngine.getInstance();
     engine.initialize(configuration);
     engine.loadLevel(new LevelTitleScreen());
+    engine.loadLevel(new LevelOne());
     engine.start();
   }
 

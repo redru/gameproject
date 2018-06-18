@@ -7,8 +7,7 @@ import com.zen.gamelib.objects.GameObject;
 public class LevelTitleScreen extends Level {
 
   public LevelTitleScreen() {
-    super("TitleScreen (Work in progress)");
-    super.concurrentObjects = 1;
+    super("TitleScreen (Work in progress)", 1);
   }
 
   @Override
