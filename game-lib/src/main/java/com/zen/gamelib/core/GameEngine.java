@@ -13,8 +13,8 @@ import java.util.UUID;
 
 public final class GameEngine {
 
-  private boolean running = false;
-  private boolean paused = false;
+  private volatile boolean running = false;
+  private volatile boolean paused = false;
 
   private GameObject[] objects = new GameObject[0];
   private Dictionary<String, Integer> objectsMap = new Hashtable<>();
