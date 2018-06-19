@@ -48,6 +48,7 @@ public class GameWindow {
 
   public void clear() {
     try {
+      this.context = (Graphics2D) buffer.getDrawGraphics();
       this.context.setColor(Color.BLACK);
       this.context.fillRect(0, 0, this.size.width, this.size.height);
     } catch (Exception e) {
@@ -79,4 +80,9 @@ public class GameWindow {
   public Graphics2D getContext() {
     return this.context;
   }
+
+  public JFrame getFrame() {
+    return frame;
+  }
+
 }

@@ -10,13 +10,13 @@ class GameEngineTest {
 
   @BeforeAll
   public static void init(){
-    GameEngine.getInstance().initialize();
+    GameEngine.getInstance().initialize(new GameConfiguration());
   }
 
   @Test
   @DisplayName("Initialize without parameters")
   void initialize() {
-    GameEngine.getInstance().initialize();
+    GameEngine.getInstance().initialize(new GameConfiguration());
     assertNotNull(GameEngine.getInstance().getGameConfiguration());
   }
 

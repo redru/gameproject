@@ -1,5 +1,6 @@
 package com.zen.gamelib.level;
 
+import com.zen.gamelib.core.GameEngine;
 import com.zen.gamelib.objects.GameObject;
 
 public abstract class Level {
@@ -7,15 +8,15 @@ public abstract class Level {
   protected String name;
   protected int concurrentObjects;
   protected GameObject[] gameObjects;
-  protected LoadCallback loadCallback = () -> { };
+  protected LoadCallback loadCallback = (engine) -> { };
 
   public Level(String name, int concurrentObjects) {
     this.name = name;
     this.concurrentObjects = concurrentObjects;
   }
 
-  public void load() {
-    this.loadCallback.onLevelLoad();
+  public void load(GameEngine engine) {
+    this.loadCallback.onLevelLoad(engine);
   }
 
   public String getName() {

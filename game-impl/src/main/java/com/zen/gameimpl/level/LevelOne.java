@@ -1,8 +1,10 @@
 package com.zen.gameimpl.level;
 
+import com.zen.gamelib.core.GameEngine;
 import com.zen.gamelib.level.Level;
 import com.zen.gamelib.objects.GameObject;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
 
@@ -13,7 +15,7 @@ public class LevelOne extends Level {
   }
 
   @Override
-  public void load() {
+  public void load(GameEngine engine) {
     super.gameObjects = new GameObject[super.concurrentObjects];
 
     for (int i = 0; i < super.concurrentObjects; i++) {
@@ -46,13 +48,21 @@ public class LevelOne extends Level {
               (int) position.getEntry(1) + 40);
         });
 
-        // engine.addGameObject(greenSquare);
         super.gameObjects[i] = greenSquare;
-
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
+
+    engine.getKeyboardInput().addCallback(key -> {
+      switch (key) {
+        case KeyEvent.VK_1:
+          engine.loadLevel(new LevelTitleScreen());
+          break;
+        default:
+          break;
+      }
+    });
   }
 
 }

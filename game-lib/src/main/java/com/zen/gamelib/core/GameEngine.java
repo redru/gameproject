@@ -1,6 +1,7 @@
 package com.zen.gamelib.core;
 
 import com.zen.gamelib.graphics.GameWindow;
+import com.zen.gamelib.input.KeyboardInput;
 import com.zen.gamelib.level.Level;
 import com.zen.gamelib.objects.GameObject;
 import com.zen.gamelib.resources.GameResources;
@@ -14,21 +15,18 @@ public final class GameEngine {
   private boolean running = false;
   private boolean paused = false;
 
-  private GameObject[] objects;
-  private Dictionary<String, Integer> objectsMap;
+  private GameObject[] objects = new GameObject[0];
+  private Dictionary<String, Integer> objectsMap = new Hashtable<>();
   private Level level;
+  private Level levelToBeLoaded;
 
   private GameConfiguration gameConfiguration = new GameConfiguration();
   private GameResources gameResources = new GameResources();
   private GameWindow gameWindow = new GameWindow();
+  private KeyboardInput keyboardInput = new KeyboardInput();
 
   private PreUpdateCallback preUpdateCallback = () -> { };
   private PostUpdateCallback postUpdateCallback = () -> { };
-
-  public void initialize() {
-    this.gameConfiguration = this.createGameConfiguration();
-    this.initialize(this.gameConfiguration);
-  }
 
   public void initialize(GameConfiguration gameConfiguration) {
     this.validateGameConfiguration(gameConfiguration);
@@ -38,6 +36,7 @@ public final class GameEngine {
     this.gameResources.loadResources(gameConfiguration.getResourcesFile());
     this.gameWindow.initialize(gameConfiguration.getTitle(), gameConfiguration.getGameWindowDimension());
     this.gameWindow.setOnCloseEvent(() -> this.running = false);
+    this.keyboardInput.initialize(this.gameWindow.getFrame());
   }
 
   public void start() {
@@ -55,6 +54,10 @@ public final class GameEngine {
         continue;
       }
 
+      if (this.levelToBeLoaded != null) {
+        this.loadMarkedLevel(this.levelToBeLoaded);
+      }
+
       currentTime = System.nanoTime();
 
       // Do nothing if fps time was not passed
@@ -63,19 +66,10 @@ public final class GameEngine {
         continue;
       }
 
-      // Update Process -------------------------
-      // Pre Update
-      this.preUpdateCallback.onPreUpdate();
+      // Process key input
+      this.keyboardInput.processCallbacks();
 
-      // Update game if it was not paused
-      if (!paused) {
-        this.update();
-      }
-
-      // Post Update
-      this.postUpdateCallback.onPostUpdate();
-
-      // Render Process -------------------------
+      this.update();
       this.render();
 
       lastTime = currentTime;
@@ -86,9 +80,18 @@ public final class GameEngine {
   }
 
   private void update() {
-    for (GameObject object : this.objects) {
-      object.update();
+    // Pre Update
+    this.preUpdateCallback.onPreUpdate();
+
+    // Update game if it was not paused
+    if (!paused) {
+      for (GameObject object : this.objects) {
+        object.update();
+      }
     }
+
+    // Post Update
+    this.postUpdateCallback.onPostUpdate();
   }
 
   private void render() {
@@ -104,8 +107,14 @@ public final class GameEngine {
   }
 
   public void loadLevel(Level level) {
+    this.levelToBeLoaded = level;
+  }
+
+  private void loadMarkedLevel(Level level) {
     try {
-      level.load();
+      this.level = level;
+      this.keyboardInput.clearCallbacks();
+      this.level.load(this);
 
       this.objects = new GameObject[level.getConcurrentObjects()];
       this.objectsMap = new Hashtable<>(level.getConcurrentObjects());
@@ -114,26 +123,17 @@ public final class GameEngine {
         this.addGameObject(object);
       }
 
-      this.level = level;
       System.out.println("[ENGINE] Loaded level: " + level.getName());
     } catch(Exception e) {
       e.printStackTrace();
+    } finally {
+      this.levelToBeLoaded = null;
     }
   }
 
   private void shutdownGameEngine() {
     System.out.println("[ENGINE] Game is closing");
     this.gameWindow.close();
-  }
-
-  private GameConfiguration createGameConfiguration() {
-    GameConfiguration gameConfiguration = new GameConfiguration();
-    gameConfiguration.setTitle("Game - [500 x 500]");
-    gameConfiguration.setGameWindowDimension(new Dimension(500, 500));
-    gameConfiguration.setResourcesFile("/assets.json");
-    gameConfiguration.setFps(30);
-
-    return gameConfiguration;
   }
 
   private void validateGameConfiguration(GameConfiguration gameConfiguration) {
@@ -207,6 +207,10 @@ public final class GameEngine {
 
   public GameConfiguration getGameConfiguration() {
     return this.gameConfiguration;
+  }
+
+  public KeyboardInput getKeyboardInput() {
+    return keyboardInput;
   }
 
   public void setPreUpdateCallback(PreUpdateCallback preUpdateCallback) {

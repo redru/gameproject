@@ -27,7 +27,7 @@
             <configuration>
               <archive>
                 <manifest>
-                  <mainClass>com.zen.gameimpl.core.Main</mainClass>
+                  <mainClass>com.zen.gameimpl.EngineMain</mainClass>
                 </manifest>
               </archive>
               <descriptorRefs>
