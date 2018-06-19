@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.UUID;
 
 public final class GameEngine {
 
@@ -34,9 +35,9 @@ public final class GameEngine {
     System.out.println(gameConfiguration);
 
     this.gameResources.loadResources(gameConfiguration.getResourcesFile());
-    this.gameWindow.initialize(gameConfiguration.getTitle(), gameConfiguration.getGameWindowDimension());
+    this.gameWindow.initialize(gameConfiguration.getTitle(), gameConfiguration.getGameWindowDimension(), gameConfiguration.isWindowDecorated());
     this.gameWindow.setOnCloseEvent(() -> this.running = false);
-    this.keyboardInput.initialize(this.gameWindow.getFrame());
+    this.keyboardInput.initialize(this.gameWindow.getKeyEventContext());
   }
 
   public void start() {
@@ -48,12 +49,6 @@ public final class GameEngine {
     long currentTime;
 
     while (this.running) {
-      // Exit if gameWindow was closed
-      if (this.gameWindow.isClosed()) {
-        this.running = false;
-        continue;
-      }
-
       if (this.levelToBeLoaded != null) {
         this.loadMarkedLevel(this.levelToBeLoaded);
       }
@@ -131,6 +126,10 @@ public final class GameEngine {
     }
   }
 
+  public void requestShutdown() {
+    this.running = false;
+  }
+
   private void shutdownGameEngine() {
     System.out.println("[ENGINE] Game is closing");
     this.gameWindow.close();
@@ -138,7 +137,7 @@ public final class GameEngine {
 
   private void validateGameConfiguration(GameConfiguration gameConfiguration) {
     if (gameConfiguration.getTitle() == null) {
-      gameConfiguration.setTitle("Game");
+      gameConfiguration.setTitle(UUID.randomUUID().toString());
     }
 
     if (gameConfiguration.getGameWindowDimension() == null) {
@@ -179,10 +178,6 @@ public final class GameEngine {
 
   public boolean isRunning() {
     return this.running;
-  }
-
-  public void setRunning(boolean running) {
-    this.running = running;
   }
 
   public boolean isPaused() {

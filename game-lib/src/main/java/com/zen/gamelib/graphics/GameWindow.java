@@ -2,6 +2,7 @@ package com.zen.gamelib.graphics;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.event.WindowAdapter;
@@ -17,18 +18,18 @@ public class GameWindow {
   private volatile BufferStrategy buffer;
   private volatile Graphics2D context;
 
-  private volatile boolean closed = false;
   private String title;
   private Dimension size;
 
   public GameWindow() { }
 
-  public void initialize(String title, Dimension size) {
+  public void initialize(String title, Dimension size, boolean decorated) {
     this.title = title;
     this.size = size;
 
     this.frame.setTitle(title);
     this.frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+    this.frame.setUndecorated(!decorated);
 
     this.canvas.setSize(size);
 
@@ -64,6 +65,7 @@ public class GameWindow {
 
   public void show() {
     this.frame.setVisible(true);
+    this.canvas.requestFocus();
     this.canvas.createBufferStrategy(2);
     this.buffer = canvas.getBufferStrategy();
     this.context = (Graphics2D) buffer.getDrawGraphics();
@@ -73,16 +75,12 @@ public class GameWindow {
     this.frame.dispose();
   }
 
-  public boolean isClosed() {
-    return this.closed;
-  }
-
   public Graphics2D getContext() {
     return this.context;
   }
 
-  public JFrame getFrame() {
-    return frame;
+  public Component getKeyEventContext() {
+    return canvas;
   }
 
 }
