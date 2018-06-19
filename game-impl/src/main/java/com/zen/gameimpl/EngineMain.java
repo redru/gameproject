@@ -17,7 +17,7 @@ public class EngineMain {
     GameEngine engine = GameEngine.getInstance();
     engine.initialize(configuration);
 
-    engine.getKeyboardInput().addCallback(key -> {
+    engine.getKeyboardInputHandler().addCallback(key -> {
       if (key == KeyEvent.VK_ESCAPE) {
         engine.requestShutdown();
       }

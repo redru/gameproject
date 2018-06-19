@@ -54,7 +54,7 @@ public class LevelOne extends Level {
       }
     }
 
-    engine.getKeyboardInput().addCallback(key -> {
+    engine.getKeyboardInputHandler().addCallback(key -> {
       switch (key) {
         case KeyEvent.VK_1:
           engine.loadLevel(new LevelTitleScreen());

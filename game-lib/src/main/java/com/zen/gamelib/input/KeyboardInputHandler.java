@@ -9,13 +9,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-public class KeyboardInput extends KeyAdapter {
+public class KeyboardInputHandler extends KeyAdapter {
 
   private List<KeyCallback> callbacks = Collections.synchronizedList(new ArrayList<>(20));
   private List<KeyCallback> persistentCallbacks = Collections.synchronizedList(new ArrayList<>(40));
   private List<Integer> keyBuffer = Collections.synchronizedList(new LinkedList<>());
 
-  public KeyboardInput() { }
+  public KeyboardInputHandler() { }
 
   public void initialize(Component component) {
     component.addKeyListener(this);

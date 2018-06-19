@@ -1,7 +1,7 @@
 package com.zen.gamelib.core;
 
 import com.zen.gamelib.graphics.GameWindow;
-import com.zen.gamelib.input.KeyboardInput;
+import com.zen.gamelib.input.KeyboardInputHandler;
 import com.zen.gamelib.level.Level;
 import com.zen.gamelib.objects.GameObject;
 import com.zen.gamelib.resources.GameResources;
@@ -24,7 +24,7 @@ public final class GameEngine {
   private GameConfiguration gameConfiguration = new GameConfiguration();
   private GameResources gameResources = new GameResources();
   private GameWindow gameWindow = new GameWindow();
-  private KeyboardInput keyboardInput = new KeyboardInput();
+  private KeyboardInputHandler keyboardInputHandler = new KeyboardInputHandler();
 
   private PreUpdateCallback preUpdateCallback = () -> { };
   private PostUpdateCallback postUpdateCallback = () -> { };
@@ -37,7 +37,7 @@ public final class GameEngine {
     this.gameResources.loadResources(gameConfiguration.getResourcesFile());
     this.gameWindow.initialize(gameConfiguration.getTitle(), gameConfiguration.getGameWindowDimension(), gameConfiguration.isWindowDecorated());
     this.gameWindow.setOnCloseEvent(() -> this.running = false);
-    this.keyboardInput.initialize(this.gameWindow.getKeyEventContext());
+    this.keyboardInputHandler.initialize(this.gameWindow.getKeyEventContext());
   }
 
   public void start() {
@@ -62,7 +62,7 @@ public final class GameEngine {
       }
 
       // Process key input
-      this.keyboardInput.processCallbacks();
+      this.keyboardInputHandler.processCallbacks();
 
       this.update();
       this.render();
@@ -108,7 +108,7 @@ public final class GameEngine {
   private void loadMarkedLevel(Level level) {
     try {
       this.level = level;
-      this.keyboardInput.clearCallbacks();
+      this.keyboardInputHandler.clearCallbacks();
       this.level.load(this);
 
       this.objects = new GameObject[level.getConcurrentObjects()];
@@ -204,8 +204,8 @@ public final class GameEngine {
     return this.gameConfiguration;
   }
 
-  public KeyboardInput getKeyboardInput() {
-    return keyboardInput;
+  public KeyboardInputHandler getKeyboardInputHandler() {
+    return keyboardInputHandler;
   }
 
   public void setPreUpdateCallback(PreUpdateCallback preUpdateCallback) {

@@ -22,7 +22,7 @@ public class LevelTitleScreen extends Level {
         context.drawImage(background.getImage(), 0, 0, null);
       });
 
-      engine.getKeyboardInput().addCallback(key -> {
+      engine.getKeyboardInputHandler().addCallback(key -> {
         switch (key) {
           case KeyEvent.VK_2:
             engine.loadLevel(new LevelOne());
