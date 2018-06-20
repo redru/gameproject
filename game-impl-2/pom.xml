@@ -27,7 +27,7 @@
             <configuration>
               <archive>
                 <manifest>
-                  <mainClass>com.zen.snake.EngineMain</mainClass>
+                  <mainClass>com.zen.snake2.Snake2</mainClass>
                 </manifest>
               </archive>
               <descriptorRefs>

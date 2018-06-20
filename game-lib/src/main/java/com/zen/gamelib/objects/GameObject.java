@@ -11,23 +11,33 @@ public class GameObject {
 
   private static int ID_COUNT = 0;
 
-  protected int id;
-  protected String name;
-  protected boolean active;
-  protected RealVector position;
-  protected RealVector direction;
-  protected float velocity;
-  protected float effectiveVelocity;
+  private int id;
+  private String name;
+  private boolean active;
+  private RealVector position;
+  private RealVector previousPosition;
+  private RealVector direction;
+  private RealVector size;
+  private float velocity;
+  private float effectiveVelocity;
 
-  protected Image image;
-  protected Dictionary<String, Object> properties = new Hashtable<>(100);
+  private Image image;
+  private Dictionary<String, Object> properties = new Hashtable<>(100);
 
-  protected RenderCallback renderCallback = (context) -> { };
-  protected UpdateCallback updateCallback = () -> { };
+  private RenderCallback renderCallback = (context) -> { };
+  private UpdateCallback updateCallback = () -> { };
 
-  private GameObject(int id, String name) {
+  public GameObject() {
+    this("DEFAULT");
+  }
+
+  public GameObject(String name) {
+    this(GameObject.newId(), name);
+  }
+
+  public GameObject(int id, String name) {
     this.id = id;
-    this.name = name;
+    this.name = name + "@" + id;
   }
 
   public void addProperty(String key, Object value) {
@@ -46,8 +56,8 @@ public class GameObject {
     updateCallback.onUpdate();
   }
 
-  public static GameObject create() {
-    return new GameObject(ID_COUNT++, "GameObject" + ID_COUNT);
+  public static int newId() {
+    return GameObject.ID_COUNT++;
   }
 
   public int getId() {
@@ -78,12 +88,28 @@ public class GameObject {
     this.position = position;
   }
 
+  public RealVector getPreviousPosition() {
+    return previousPosition;
+  }
+
+  public void setPreviousPosition(RealVector previousPosition) {
+    this.previousPosition = previousPosition;
+  }
+
   public RealVector getDirection() {
     return direction;
   }
 
   public void setDirection(RealVector direction) {
     this.direction = direction;
+  }
+
+  public RealVector getSize() {
+    return size;
+  }
+
+  public void setSize(RealVector size) {
+    this.size = size;
   }
 
   public float getVelocity() {

@@ -3,6 +3,7 @@ package com.zen.snake2.level;
 import com.zen.gamelib.core.GameEngine;
 import com.zen.gamelib.level.Level;
 import com.zen.gamelib.objects.GameObject;
+import com.zen.snake2.objects.SnakeHead;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import org.apache.commons.math3.linear.ArrayRealVector;
@@ -18,10 +19,11 @@ public class LevelOne extends Level {
   public void load(GameEngine engine) {
     GameObject[] gameObjects = new GameObject[getConcurrentObjectsCount()];
 
-    for (int i = 0; i < getConcurrentObjectsCount(); i++) {
+    gameObjects[0] = new SnakeHead();
+
+    for (int i = 1; i < getConcurrentObjectsCount(); i++) {
       try {
-        GameObject greenSquare = GameObject.create();
-        greenSquare.setName("MOCK_" + i);
+        GameObject greenSquare = new GameObject("MOCK");
         greenSquare.setPosition(new ArrayRealVector(new double[]{
             Math.random() * engine.getGameConfiguration().getGameWindowDimension().getWidth(),
             Math.random() * engine.getGameConfiguration().getGameWindowDimension().getHeight() }));

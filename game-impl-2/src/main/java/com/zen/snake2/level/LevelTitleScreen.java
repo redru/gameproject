@@ -14,7 +14,7 @@ public class LevelTitleScreen extends Level {
   @Override
   public void load(GameEngine engine) {
     try {
-      GameObject background = GameObject.create();
+      GameObject background = new GameObject();
       background.setName("BACKGROUND");
       background.setImage(engine.getGameResources().getImage("title_bg"));
 
