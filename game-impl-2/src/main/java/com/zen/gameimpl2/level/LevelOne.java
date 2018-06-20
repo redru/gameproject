@@ -1,4 +1,4 @@
-package com.zen.gameimpl.level;
+package com.zen.gameimpl2.level;
 
 import com.zen.gamelib.core.GameEngine;
 import com.zen.gamelib.level.Level;
@@ -11,19 +11,21 @@ import org.apache.commons.math3.linear.RealVector;
 public class LevelOne extends Level {
 
   public LevelOne() {
-    super("Level 1 (Work in progress)", 30);
+    super("Level 1 (Work in progress)", 100);
   }
 
   @Override
   public void load(GameEngine engine) {
-    super.gameObjects = new GameObject[super.concurrentObjects];
+    GameObject[] gameObjects = new GameObject[getConcurrentObjectsCount()];
 
-    for (int i = 0; i < super.concurrentObjects; i++) {
+    for (int i = 0; i < getConcurrentObjectsCount(); i++) {
       try {
         GameObject greenSquare = GameObject.create();
         greenSquare.setName("MOCK_" + i);
-        greenSquare.setPosition(new ArrayRealVector(new double[]{ Math.random() * 1600, Math.random() * 900 }));
-        greenSquare.setDirection(new ArrayRealVector(new double[]{ Math.random(), Math.random() }));
+        greenSquare.setPosition(new ArrayRealVector(new double[]{
+            Math.random() * engine.getGameConfiguration().getGameWindowDimension().getWidth(),
+            Math.random() * engine.getGameConfiguration().getGameWindowDimension().getHeight() }));
+        greenSquare.setDirection(new ArrayRealVector(new double[]{ Math.random() * 2 - 1, Math.random() * 2 - 1 }));
         greenSquare.setVelocity(100);
 
         greenSquare.setUpdateCallback(() -> {
@@ -48,12 +50,17 @@ public class LevelOne extends Level {
               (int) position.getEntry(1) + 40);
         });
 
-        super.gameObjects[i] = greenSquare;
+        gameObjects[i] = greenSquare;
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
 
+    setGameObjects(gameObjects);
+    this.addInputCallbacks(engine);
+  }
+
+  private void addInputCallbacks(GameEngine engine) {
     engine.getKeyboardInputHandler().addCallback(key -> {
       switch (key) {
         case KeyEvent.VK_1:

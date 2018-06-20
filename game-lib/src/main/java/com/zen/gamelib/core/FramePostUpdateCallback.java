@@ -1,6 +1,6 @@
 package com.zen.gamelib.core;
 
-public interface PostUpdateCallback {
+public interface FramePostUpdateCallback {
 
   void onPostUpdate();
 

@@ -1,6 +1,6 @@
-package com.zen.gameimpl;
+package com.zen.gameimpl2;
 
-import com.zen.gameimpl.level.LevelTitleScreen;
+import com.zen.gameimpl2.level.LevelTitleScreen;
 import com.zen.gamelib.core.GameConfiguration;
 import com.zen.gamelib.core.GameEngine;
 import java.awt.Toolkit;

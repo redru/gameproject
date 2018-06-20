@@ -12,6 +12,7 @@
   <modules>
     <module>game-lib</module>
     <module>game-impl</module>
+    <module>game-impl-2</module>
   </modules>
 
   <properties>

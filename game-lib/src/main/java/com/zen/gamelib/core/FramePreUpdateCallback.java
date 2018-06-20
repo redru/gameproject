@@ -1,6 +1,6 @@
 package com.zen.gamelib.core;
 
-public interface PreUpdateCallback {
+public interface FramePreUpdateCallback {
 
   void onPreUpdate();
 

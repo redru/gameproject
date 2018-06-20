@@ -1,4 +1,4 @@
-package com.zen.gameimpl.level;
+package com.zen.gameimpl2.level;
 
 import com.zen.gamelib.core.GameEngine;
 import com.zen.gamelib.level.Level;
@@ -22,20 +22,23 @@ public class LevelTitleScreen extends Level {
         context.drawImage(background.getImage(), 0, 0, null);
       });
 
-      engine.getKeyboardInputHandler().addCallback(key -> {
-        switch (key) {
-          case KeyEvent.VK_2:
-            engine.loadLevel(new LevelOne());
-            break;
-          default:
-            break;
-        }
-      });
-
-      super.gameObjects = new GameObject[]{ background };
+      setGameObjects(new GameObject[]{ background });
+      this.addInputCallbacks(engine);
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  private void addInputCallbacks(GameEngine engine) {
+    engine.getKeyboardInputHandler().addCallback(key -> {
+      switch (key) {
+        case KeyEvent.VK_2:
+          engine.loadLevel(new LevelOne());
+          break;
+        default:
+          break;
+      }
+    });
   }
 
 }

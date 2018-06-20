@@ -26,8 +26,8 @@ public final class GameEngine {
   private GameWindow gameWindow = new GameWindow();
   private KeyboardInputHandler keyboardInputHandler = new KeyboardInputHandler();
 
-  private PreUpdateCallback preUpdateCallback = () -> { };
-  private PostUpdateCallback postUpdateCallback = () -> { };
+  private FramePreUpdateCallback framePreUpdateCallback = () -> { };
+  private FramePostUpdateCallback framePostUpdateCallback = () -> { };
 
   public void initialize(GameConfiguration gameConfiguration) {
     this.validateGameConfiguration(gameConfiguration);
@@ -76,7 +76,7 @@ public final class GameEngine {
 
   private void update() {
     // Pre Update
-    this.preUpdateCallback.onPreUpdate();
+    this.framePreUpdateCallback.onPreUpdate();
 
     // Update game if it was not paused
     if (!paused) {
@@ -86,7 +86,7 @@ public final class GameEngine {
     }
 
     // Post Update
-    this.postUpdateCallback.onPostUpdate();
+    this.framePostUpdateCallback.onPostUpdate();
   }
 
   private void render() {
@@ -111,14 +111,15 @@ public final class GameEngine {
       this.keyboardInputHandler.clearCallbacks();
       this.level.load(this);
 
-      this.objects = new GameObject[level.getConcurrentObjects()];
-      this.objectsMap = new Hashtable<>(level.getConcurrentObjects());
+      this.objects = new GameObject[level.getConcurrentObjectsCount()];
+      this.objectsMap = new Hashtable<>(level.getConcurrentObjectsCount());
 
       for (GameObject object : level.getGameObjects()) {
         this.addGameObject(object);
       }
 
-      System.out.println("[ENGINE] Loaded level: " + level.getName());
+      System.out.println("[ENGINE] Loaded level: " + level.getName()
+          + "\n[ENGINE] Total object created: " + level.getGameObjects().length);
     } catch(Exception e) {
       e.printStackTrace();
     } finally {
@@ -173,7 +174,7 @@ public final class GameEngine {
       }
     }
 
-    throw new Exception("Reached active object limit: " + this.level.getConcurrentObjects());
+    throw new Exception("Reached active object limit: " + this.level.getConcurrentObjectsCount());
   }
 
   public boolean isRunning() {
@@ -208,12 +209,12 @@ public final class GameEngine {
     return keyboardInputHandler;
   }
 
-  public void setPreUpdateCallback(PreUpdateCallback preUpdateCallback) {
-    this.preUpdateCallback = preUpdateCallback;
+  public void setFramePreUpdateCallback(FramePreUpdateCallback framePreUpdateCallback) {
+    this.framePreUpdateCallback = framePreUpdateCallback;
   }
 
-  public void setPostUpdateCallback(PostUpdateCallback postUpdateCallback) {
-    this.postUpdateCallback = postUpdateCallback;
+  public void setFramePostUpdateCallback(FramePostUpdateCallback framePostUpdateCallback) {
+    this.framePostUpdateCallback = framePostUpdateCallback;
   }
 
   // Singleton Section ------------------------------------

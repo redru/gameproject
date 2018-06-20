@@ -1,18 +1,22 @@
 package com.zen.gamelib.level;
 
 import com.zen.gamelib.core.GameEngine;
+import com.zen.gamelib.core.FramePostUpdateCallback;
+import com.zen.gamelib.core.FramePreUpdateCallback;
 import com.zen.gamelib.objects.GameObject;
 
 public abstract class Level {
 
-  protected String name;
-  protected int concurrentObjects;
-  protected GameObject[] gameObjects;
-  protected LoadCallback loadCallback = (engine) -> { };
+  private String name;
+  private int concurrentObjectsCount;
+  private GameObject[] gameObjects;
+  private LoadCallback loadCallback = (engine) -> { };
+  private FramePreUpdateCallback framePreUpdateCallback = () -> { };
+  private FramePostUpdateCallback framePostUpdateCallback = () -> { };
 
-  public Level(String name, int concurrentObjects) {
+  public Level(String name, int concurrentObjectsCount) {
     this.name = name;
-    this.concurrentObjects = concurrentObjects;
+    this.concurrentObjectsCount = concurrentObjectsCount;
   }
 
   public void load(GameEngine engine) {
@@ -35,12 +39,12 @@ public abstract class Level {
     this.gameObjects = gameObjects;
   }
 
-  public int getConcurrentObjects() {
-    return concurrentObjects;
+  public int getConcurrentObjectsCount() {
+    return concurrentObjectsCount;
   }
 
-  public void setConcurrentObjects(int concurrentObjects) {
-    this.concurrentObjects = concurrentObjects;
+  public void setConcurrentObjectsCount(int concurrentObjectsCount) {
+    this.concurrentObjectsCount = concurrentObjectsCount;
   }
 
   public LoadCallback getLoadCallback() {
@@ -49,6 +53,23 @@ public abstract class Level {
 
   public void setLoadCallback(LoadCallback loadCallback) {
     this.loadCallback = loadCallback;
+  }
+
+  public FramePreUpdateCallback getFramePreUpdateCallback() {
+    return framePreUpdateCallback;
+  }
+
+  public void setFramePreUpdateCallback(FramePreUpdateCallback framePreUpdateCallback) {
+    this.framePreUpdateCallback = framePreUpdateCallback;
+  }
+
+  public FramePostUpdateCallback getFramePostUpdateCallback() {
+    return framePostUpdateCallback;
+  }
+
+  public void setFramePostUpdateCallback(
+      FramePostUpdateCallback framePostUpdateCallback) {
+    this.framePostUpdateCallback = framePostUpdateCallback;
   }
 
 }
