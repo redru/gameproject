@@ -1,12 +1,12 @@
-package com.zen.gameimpl2;
+package com.zen.snake2;
 
-import com.zen.gameimpl2.level.LevelTitleScreen;
+import com.zen.snake2.level.LevelTitleScreen;
 import com.zen.gamelib.core.GameConfiguration;
 import com.zen.gamelib.core.GameEngine;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 
-public class EngineMain {
+public class Snake2 {
 
   public static void main(String[] args) {
     GameConfiguration configuration = new GameConfiguration();

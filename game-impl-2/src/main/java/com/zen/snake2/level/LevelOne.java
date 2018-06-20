@@ -1,4 +1,4 @@
-package com.zen.gameimpl2.level;
+package com.zen.snake2.level;
 
 import com.zen.gamelib.core.GameEngine;
 import com.zen.gamelib.level.Level;

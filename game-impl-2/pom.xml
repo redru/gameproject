@@ -10,7 +10,7 @@
     <version>0.0.1</version>
   </parent>
 
-  <artifactId>game-impl-2</artifactId>
+  <artifactId>snake-2</artifactId>
   <packaging>jar</packaging>
 
   <build>
@@ -27,7 +27,7 @@
             <configuration>
               <archive>
                 <manifest>
-                  <mainClass>com.zen.gameimpl.EngineMain</mainClass>
+                  <mainClass>com.zen.snake.EngineMain</mainClass>
                 </manifest>
               </archive>
               <descriptorRefs>

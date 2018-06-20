@@ -1,4 +1,4 @@
-package com.zen.gameimpl.core;
+package com.zen.snake.core;
 
 import com.zen.gamelib.core.GameEngine;
 import java.awt.Component;

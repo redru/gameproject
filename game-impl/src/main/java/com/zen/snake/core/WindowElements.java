@@ -1,4 +1,4 @@
-package com.zen.gameimpl.core;
+package com.zen.snake.core;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
