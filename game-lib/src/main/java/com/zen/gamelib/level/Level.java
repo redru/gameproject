@@ -1,9 +1,10 @@
 package com.zen.gamelib.level;
 
 import com.zen.gamelib.core.GameEngine;
-import com.zen.gamelib.core.FramePostUpdateCallback;
-import com.zen.gamelib.core.FramePreUpdateCallback;
+import com.zen.gamelib.input.KeyCallback;
 import com.zen.gamelib.util.GameObjectList;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Level {
 
@@ -12,6 +13,7 @@ public abstract class Level {
   private boolean cacheable;
 
   private GameObjectList objectsList;
+  private List<KeyCallback> keyCallbackList = new ArrayList<>(20);
 
   public Level(String name, int totalObjects, boolean cacheable) {
     this.name = name;
@@ -53,6 +55,10 @@ public abstract class Level {
 
   public void setObjectsList(GameObjectList objectsList) {
     this.objectsList = objectsList;
+  }
+
+  public List<KeyCallback> getKeyCallbackList() {
+    return keyCallbackList;
   }
 
 }

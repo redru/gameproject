@@ -17,16 +17,16 @@ public class SnakeHead extends GameObject {
     GameEngine engine = GameEngine.getInstance();
     Dimension screenDimension = engine.getGameConfiguration().getGameWindowDimension();
 
-    super.setVelocity(300F);
-    super.setSize(new ArrayRealVector(new double[]{ 15.0, 15.0 }));
-    super.setDirection(new ArrayRealVector(new double[]{ 0.0, 0.0 }));
+    setVelocity(300F);
+    setSize(new ArrayRealVector(new double[]{ 15.0, 15.0 }));
+    setDirection(new ArrayRealVector(new double[]{ 0.0, 0.0 }));
 
     double[] pos = new double[]{ screenDimension.getWidth() / 2, screenDimension.getHeight() / 2 };
-    super.setPosition(new ArrayRealVector(pos));
-    super.setPreviousPosition(new ArrayRealVector(pos));
+    setPosition(new ArrayRealVector(pos));
+    setPreviousPosition(new ArrayRealVector(pos));
 
     engine.getKeyboardInputHandler().addCallback(key -> {
-      RealVector direction = super.getDirection();
+      RealVector direction = getDirection();
 
       switch (key) {
         case KeyEvent.VK_W:
@@ -63,21 +63,21 @@ public class SnakeHead extends GameObject {
 
   @Override
   public void update() {
-    super.setPreviousPosition(super.getPosition());
+    setPreviousPosition(getPosition());
 
-    RealVector newPosition = super.getPosition()
-        .add(super.getDirection().mapMultiply(super.getEffectiveVelocity()));
-    super.setPosition(newPosition);
+    RealVector newPosition = getPosition()
+        .add(getDirection().mapMultiply(getEffectiveVelocity()));
+    setPosition(newPosition);
   }
 
   @Override
   public void render(Graphics2D context) {
     context.setColor(Color.RED);
     context.fillArc(
-        (int) super.getPosition().getEntry(0),
-        (int) super.getPosition().getEntry(1),
-        (int) super.getSize().getEntry(0),
-        (int) super.getSize().getEntry(1),
+        (int) getPosition().getEntry(0),
+        (int) getPosition().getEntry(1),
+        (int) getSize().getEntry(0),
+        (int) getSize().getEntry(1),
         0,
         360
     );
