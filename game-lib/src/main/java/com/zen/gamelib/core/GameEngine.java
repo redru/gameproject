@@ -7,8 +7,6 @@ import com.zen.gamelib.objects.GameObject;
 import com.zen.gamelib.resources.GameResources;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.util.Dictionary;
-import java.util.Hashtable;
 import java.util.UUID;
 
 public final class GameEngine {
@@ -16,8 +14,6 @@ public final class GameEngine {
   private volatile boolean running = false;
   private volatile boolean paused = false;
 
-  private GameObject[] objects = new GameObject[0];
-  private Dictionary<String, Integer> objectsMap = new Hashtable<>();
   private Level level;
   private Level levelToBeLoaded;
 
@@ -80,8 +76,10 @@ public final class GameEngine {
 
     // Update game if it was not paused
     if (!paused) {
-      for (GameObject object : this.objects) {
-        object.update();
+      for (GameObject object : this.level.getObjectsList().getList()) {
+        if (object.isActive()) {
+          object.update();
+        }
       }
     }
 
@@ -94,8 +92,10 @@ public final class GameEngine {
 
     Graphics2D context = this.gameWindow.getContext();
 
-    for (GameObject object : this.objects) {
-      object.render(context);
+    for (GameObject object : this.level.getObjectsList().getList()) {
+      if (object.isActive() && !object.isHidden()) {
+        object.render(context);
+      }
     }
 
     this.gameWindow.render();
@@ -107,19 +107,14 @@ public final class GameEngine {
 
   private void loadMarkedLevel(Level level) {
     try {
-      this.level = level;
+      GameObject.resetIdsCount();
       this.keyboardInputHandler.clearCallbacks();
+
+      this.level = level;
       this.level.load(this);
 
-      this.objects = new GameObject[level.getConcurrentObjectsCount()];
-      this.objectsMap = new Hashtable<>(level.getConcurrentObjectsCount());
-
-      for (GameObject object : level.getGameObjects()) {
-        this.addGameObject(object);
-      }
-
       System.out.println("[ENGINE] Loaded level: " + level.getName()
-          + "\n[ENGINE] Total object created: " + level.getGameObjects().length);
+          + "\n[ENGINE] Total object created: " + level.getObjectsList().getCapacity());
     } catch(Exception e) {
       e.printStackTrace();
     } finally {
@@ -152,29 +147,6 @@ public final class GameEngine {
     if (gameConfiguration.getFps() < 0 || gameConfiguration.getFps() > 120) {
       gameConfiguration.setFps(30);
     }
-  }
-
-  public void addGameObject(GameObject object) throws Exception {
-    object.setActive(true);
-
-    int position = this.getInactiveObjectPosition();
-
-    this.objects[position] = object;
-    this.objectsMap.put(object.getName(), position);
-  }
-
-  public GameObject getObjectByName(String id) {
-    return this.objects[this.objectsMap.get(id)];
-  }
-
-  public int getInactiveObjectPosition() throws Exception {
-    for (int i = 0; i < this.objects.length; i++) {
-      if (this.objects[i] == null || !this.objects[i].isActive()) {
-        return i;
-      }
-    }
-
-    throw new Exception("Reached active object limit: " + this.level.getConcurrentObjectsCount());
   }
 
   public boolean isRunning() {

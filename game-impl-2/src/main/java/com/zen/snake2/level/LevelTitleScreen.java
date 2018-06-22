@@ -1,9 +1,9 @@
 package com.zen.snake2.level;
 
 import com.zen.gamelib.core.GameEngine;
+import com.zen.gamelib.exception.ObjectsLimitException;
 import com.zen.gamelib.level.Level;
 import com.zen.gamelib.objects.GameObject;
-import java.awt.event.KeyEvent;
 
 public class LevelTitleScreen extends Level {
 
@@ -22,23 +22,10 @@ public class LevelTitleScreen extends Level {
         context.drawImage(background.getImage(), 0, 0, null);
       });
 
-      setGameObjects(new GameObject[]{ background });
-      this.addInputCallbacks(engine);
-    } catch (Exception e) {
+      getObjectsList().addGameObject(background);
+    } catch (ObjectsLimitException | Exception e) {
       e.printStackTrace();
     }
-  }
-
-  private void addInputCallbacks(GameEngine engine) {
-    engine.getKeyboardInputHandler().addCallback(key -> {
-      switch (key) {
-        case KeyEvent.VK_2:
-          engine.loadLevel(new LevelOne());
-          break;
-        default:
-          break;
-      }
-    });
   }
 
 }

@@ -3,20 +3,22 @@ package com.zen.gamelib.level;
 import com.zen.gamelib.core.GameEngine;
 import com.zen.gamelib.core.FramePostUpdateCallback;
 import com.zen.gamelib.core.FramePreUpdateCallback;
-import com.zen.gamelib.objects.GameObject;
+import com.zen.gamelib.util.GameObjectList;
 
 public abstract class Level {
 
   private String name;
-  private int concurrentObjectsCount;
-  private GameObject[] gameObjects;
+
+  private GameObjectList objectsList;
+
   private LoadCallback loadCallback = (engine) -> { };
+
   private FramePreUpdateCallback framePreUpdateCallback = () -> { };
   private FramePostUpdateCallback framePostUpdateCallback = () -> { };
 
-  public Level(String name, int concurrentObjectsCount) {
+  public Level(String name, int totalObjects) {
     this.name = name;
-    this.concurrentObjectsCount = concurrentObjectsCount;
+    this.objectsList = new GameObjectList(totalObjects);
   }
 
   public void load(GameEngine engine) {
@@ -31,20 +33,12 @@ public abstract class Level {
     this.name = name;
   }
 
-  public GameObject[] getGameObjects() {
-    return gameObjects;
+  public GameObjectList getObjectsList() {
+    return objectsList;
   }
 
-  public void setGameObjects(GameObject[] gameObjects) {
-    this.gameObjects = gameObjects;
-  }
-
-  public int getConcurrentObjectsCount() {
-    return concurrentObjectsCount;
-  }
-
-  public void setConcurrentObjectsCount(int concurrentObjectsCount) {
-    this.concurrentObjectsCount = concurrentObjectsCount;
+  public void setObjectsList(GameObjectList objectsList) {
+    this.objectsList = objectsList;
   }
 
   public LoadCallback getLoadCallback() {

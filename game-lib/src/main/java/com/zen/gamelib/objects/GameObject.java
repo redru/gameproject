@@ -14,6 +14,7 @@ public class GameObject {
   private int id;
   private String name;
   private boolean active;
+  private boolean hidden = false;
   private RealVector position;
   private RealVector previousPosition;
   private RealVector direction;
@@ -37,7 +38,20 @@ public class GameObject {
 
   public GameObject(int id, String name) {
     this.id = id;
-    this.name = name + "@" + id;
+    this.name = name;
+  }
+
+  public static int newId() {
+    return GameObject.ID_COUNT++;
+  }
+
+  public static void resetIdsCount() {
+    GameObject.ID_COUNT = 0;
+  }
+
+  @Override
+  public String toString() {
+    return this.name + "@" + this.id;
   }
 
   public void addProperty(String key, Object value) {
@@ -54,10 +68,6 @@ public class GameObject {
 
   public void update() {
     updateCallback.onUpdate();
-  }
-
-  public static int newId() {
-    return GameObject.ID_COUNT++;
   }
 
   public int getId() {
@@ -78,6 +88,14 @@ public class GameObject {
 
   public void setActive(boolean active) {
     this.active = active;
+  }
+
+  public boolean isHidden() {
+    return hidden;
+  }
+
+  public void setHidden(boolean hidden) {
+    this.hidden = hidden;
   }
 
   public RealVector getPosition() {
