@@ -11,12 +11,12 @@ import java.util.List;
 
 public abstract class Level implements Updatable {
 
-  private String name;
-  private boolean loaded;
-  private boolean cacheable;
+  protected String name;
+  protected boolean loaded;
+  protected boolean cacheable;
 
-  private GameObjectList objectsList;
-  private List<InputEventListener> inputEventListenerList = Collections.synchronizedList(new LinkedList<>());
+  protected GameObjectList objectsList;
+  protected List<InputEventListener> inputEventListenerList = Collections.synchronizedList(new LinkedList<>());
 
   public Level(String name, int totalObjects, boolean cacheable) {
     this.name = name;

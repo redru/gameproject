@@ -88,6 +88,20 @@ public class GameObjectList {
     return -1;
   }
 
+  public GameObject getInactiveObject() {
+    int slot = getEmptySlot();
+
+    return slot > -1 ? this.list.get(slot) : null;
+  }
+
+  public GameObject getInactiveObjectByGroup(String group) {
+    for (GameObject object : this.list) {
+      if (group.equals(object.getGroup()) && !object.isActive()) return object;
+    }
+
+    return null;
+  }
+
   public void clear() {
     this.initializeContainers();
   }

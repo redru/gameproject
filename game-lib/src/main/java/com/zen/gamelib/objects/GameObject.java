@@ -12,19 +12,22 @@ public abstract class GameObject implements Updatable, Renderable {
 
   private static int ID_COUNT = 0;
 
-  private int id;
-  private String name;
-  private boolean active;
-  private boolean hidden;
-  private float velocity;
-  private float effectiveVelocity;
+  protected int id;
+  protected String name;
+  protected String group;
+  protected boolean active;
+  protected boolean hidden;
+  protected float velocity;
+  protected float effectiveVelocity;
 
-  private RealVector position;
-  private RealVector previousPosition;
-  private RealVector direction;
-  private RealVector size;
-  private Image image;
-  private Map<String, Object> properties = new Hashtable<>(100);
+  protected RealVector position;
+  protected RealVector previousPosition;
+  protected RealVector direction;
+  protected RealVector size;
+  protected Image image;
+  protected Map<String, Object> properties = new Hashtable<>(100);
+
+  protected GameEngine engine = GameEngine.getInstance();
 
   public GameObject(String name) {
     this(GameObject.newId(), name);
@@ -45,7 +48,7 @@ public abstract class GameObject implements Updatable, Renderable {
 
   @Override
   public String toString() {
-    return this.name + "@" + this.id;
+    return this.name + "@" + this.id + " (" + this.group + ")";
   }
 
   public int getId() {
@@ -58,6 +61,14 @@ public abstract class GameObject implements Updatable, Renderable {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String getGroup() {
+    return group;
+  }
+
+  public void setGroup(String group) {
+    this.group = group;
   }
 
   public boolean isActive() {
@@ -131,6 +142,22 @@ public abstract class GameObject implements Updatable, Renderable {
 
   public Map<String, Object> getProperties() {
     return properties;
+  }
+
+  public double getX() {
+    return this.position.getEntry(0);
+  }
+
+  public double getY() {
+    return this.position.getEntry(1);
+  }
+
+  public double getWidth() {
+    return this.size.getEntry(0);
+  }
+
+  public double getHeight() {
+    return this.size.getEntry(1);
   }
 
 }
