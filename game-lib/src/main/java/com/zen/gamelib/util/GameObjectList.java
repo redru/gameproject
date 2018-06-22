@@ -16,9 +16,12 @@ public class GameObjectList {
 
   public GameObjectList(int capacity) {
     this.capacity = capacity;
-    this.list = Arrays.asList(new GameObject[capacity]);
-    this.ids = new int[capacity];
-    this.names = new String[capacity];
+  }
+
+  private void initializeContainers() {
+    this.list = Arrays.asList(new GameObject[this.capacity]);
+    this.ids = new int[this.capacity];
+    this.names = new String[this.capacity];
 
     for (int i = 0; i < this.capacity; i++) {
       this.list.set(i, new GameObject());
@@ -82,6 +85,10 @@ public class GameObjectList {
     }
 
     return -1;
+  }
+
+  public void clear() {
+    this.initializeContainers();
   }
 
   public void printObjects() {

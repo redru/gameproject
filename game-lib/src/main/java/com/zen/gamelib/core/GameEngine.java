@@ -107,19 +107,40 @@ public final class GameEngine {
 
   private void loadMarkedLevel(Level level) {
     try {
-      GameObject.resetIdsCount();
-      this.keyboardInputHandler.clearCallbacks();
+      this.executePreloadOperations();
 
-      this.level = level;
-      this.level.load(this);
+      if (level.isCacheable() && level.isLoaded()) {
+        this.loadCachedLevel(level);
+        return;
+      }
 
-      System.out.println("[ENGINE] Loaded level: " + level.getName()
-          + "\n[ENGINE] Total object created: " + level.getObjectsList().getCapacity());
+      this.loadNewLevel(level);
     } catch(Exception e) {
       e.printStackTrace();
     } finally {
       this.levelToBeLoaded = null;
     }
+  }
+
+  private void executePreloadOperations() {
+    GameObject.resetIdsCount();
+    this.keyboardInputHandler.clearCallbacks();
+  }
+
+  private void loadCachedLevel(Level level) {
+    this.level = level;
+    this.level.onLoadFromCache(this);
+    System.out.println("[ENGINE] Getting from cache level " + level.getName());
+  }
+
+  private void loadNewLevel(Level level) {
+    this.level = level;
+    this.level.getObjectsList().clear();
+    this.level.load(this);
+    this.level.setLoaded(true);
+
+    System.out.println("[ENGINE] Loaded level: " + level.getName()
+        + "\n[ENGINE] Total object created: " + level.getObjectsList().getCapacity());
   }
 
   public void requestShutdown() {

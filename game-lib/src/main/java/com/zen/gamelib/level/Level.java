@@ -8,22 +8,20 @@ import com.zen.gamelib.util.GameObjectList;
 public abstract class Level {
 
   private String name;
+  private boolean loaded;
+  private boolean cacheable;
 
   private GameObjectList objectsList;
 
-  private LoadCallback loadCallback = (engine) -> { };
-
-  private FramePreUpdateCallback framePreUpdateCallback = () -> { };
-  private FramePostUpdateCallback framePostUpdateCallback = () -> { };
-
-  public Level(String name, int totalObjects) {
+  public Level(String name, int totalObjects, boolean cacheable) {
     this.name = name;
     this.objectsList = new GameObjectList(totalObjects);
+    this.cacheable = cacheable;
   }
 
-  public void load(GameEngine engine) {
-    this.loadCallback.onLevelLoad(engine);
-  }
+  public void onLoadFromCache(GameEngine engine) { }
+
+  public void load(GameEngine engine) { }
 
   public String getName() {
     return name;
@@ -33,37 +31,28 @@ public abstract class Level {
     this.name = name;
   }
 
+  public boolean isLoaded() {
+    return loaded;
+  }
+
+  public void setLoaded(boolean loaded) {
+    this.loaded = loaded;
+  }
+
+  public boolean isCacheable() {
+    return cacheable;
+  }
+
+  public void setCacheable(boolean cacheable) {
+    this.cacheable = cacheable;
+  }
+
   public GameObjectList getObjectsList() {
     return objectsList;
   }
 
   public void setObjectsList(GameObjectList objectsList) {
     this.objectsList = objectsList;
-  }
-
-  public LoadCallback getLoadCallback() {
-    return loadCallback;
-  }
-
-  public void setLoadCallback(LoadCallback loadCallback) {
-    this.loadCallback = loadCallback;
-  }
-
-  public FramePreUpdateCallback getFramePreUpdateCallback() {
-    return framePreUpdateCallback;
-  }
-
-  public void setFramePreUpdateCallback(FramePreUpdateCallback framePreUpdateCallback) {
-    this.framePreUpdateCallback = framePreUpdateCallback;
-  }
-
-  public FramePostUpdateCallback getFramePostUpdateCallback() {
-    return framePostUpdateCallback;
-  }
-
-  public void setFramePostUpdateCallback(
-      FramePostUpdateCallback framePostUpdateCallback) {
-    this.framePostUpdateCallback = framePostUpdateCallback;
   }
 
 }

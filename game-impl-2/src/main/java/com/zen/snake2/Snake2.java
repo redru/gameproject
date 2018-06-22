@@ -1,5 +1,6 @@
 package com.zen.snake2;
 
+import com.zen.gamelib.level.Level;
 import com.zen.snake2.level.LevelOne;
 import com.zen.snake2.level.LevelTitleScreen;
 import com.zen.gamelib.core.GameConfiguration;
@@ -18,10 +19,12 @@ public class Snake2 {
     GameEngine engine = GameEngine.getInstance();
     engine.initialize(configuration);
 
+    Level titleScreen = new LevelTitleScreen();
+
     engine.getKeyboardInputHandler().addCallback(key -> {
       switch (key) {
         case KeyEvent.VK_1:
-          engine.loadLevel(new LevelTitleScreen());
+          engine.loadLevel(titleScreen);
           break;
         case KeyEvent.VK_2:
           engine.loadLevel(new LevelOne());
@@ -33,7 +36,7 @@ public class Snake2 {
       }
     }, true);
 
-    engine.loadLevel(new LevelTitleScreen());
+    engine.loadLevel(titleScreen);
     engine.start();
   }
 
