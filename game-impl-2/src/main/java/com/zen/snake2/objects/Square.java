@@ -24,11 +24,17 @@ public class Square extends GameObject {
   }
 
   @Override
+  public void preUpdate() { }
+
+  @Override
   public void update() {
     RealVector newPosition = getPosition()
         .add(getDirection().mapMultiply(getEffectiveVelocity()));
     setPosition(newPosition);
   }
+
+  @Override
+  public void postUpdate() { }
 
   @Override
   public void render(Graphics2D context) {

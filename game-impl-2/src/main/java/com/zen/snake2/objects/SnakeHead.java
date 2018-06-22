@@ -25,42 +25,10 @@ public class SnakeHead extends GameObject implements InputEventListener {
     double[] pos = new double[]{ screenDimension.getWidth() / 2, screenDimension.getHeight() / 2 };
     setPosition(new ArrayRealVector(pos));
     setPreviousPosition(new ArrayRealVector(pos));
-
-    engine.getKeyboardInputHandler().addCallback(key -> {
-      RealVector direction = getDirection();
-
-      switch (key) {
-        case KeyEvent.VK_W:
-          if (direction.getEntry(1) != -1.0) {
-            direction.setEntry(0, 0.0);
-            direction.setEntry(1, -1.0);
-          }
-
-          break;
-        case KeyEvent.VK_A:
-          if (direction.getEntry(0) != 1.0) {
-            direction.setEntry(0, -1.0);
-            direction.setEntry(1, 0.0);
-          }
-
-          break;
-        case KeyEvent.VK_S:
-          if (direction.getEntry(1) != -1.0) {
-            direction.setEntry(0, 0.0);
-            direction.setEntry(1, 1.0);
-          }
-
-          break;
-        case KeyEvent.VK_D:
-          if (direction.getEntry(0) != -1.0) {
-            direction.setEntry(0, 1.0);
-            direction.setEntry(1, 0.0);
-          }
-
-          break;
-      }
-    }, false);
   }
+
+  @Override
+  public void preUpdate() { }
 
   @Override
   public void update() {
@@ -70,6 +38,9 @@ public class SnakeHead extends GameObject implements InputEventListener {
         .add(getDirection().mapMultiply(getEffectiveVelocity()));
     setPosition(newPosition);
   }
+
+  @Override
+  public void postUpdate() { }
 
   @Override
   public void render(Graphics2D context) {
@@ -86,6 +57,38 @@ public class SnakeHead extends GameObject implements InputEventListener {
 
   @Override
   public void onKeyPress(int key) {
+    RealVector direction = getDirection();
 
+    switch (key) {
+      case KeyEvent.VK_W:
+        if (direction.getEntry(1) != -1.0) {
+          direction.setEntry(0, 0.0);
+          direction.setEntry(1, -1.0);
+        }
+
+        break;
+      case KeyEvent.VK_A:
+        if (direction.getEntry(0) != 1.0) {
+          direction.setEntry(0, -1.0);
+          direction.setEntry(1, 0.0);
+        }
+
+        break;
+      case KeyEvent.VK_S:
+        if (direction.getEntry(1) != -1.0) {
+          direction.setEntry(0, 0.0);
+          direction.setEntry(1, 1.0);
+        }
+
+        break;
+      case KeyEvent.VK_D:
+        if (direction.getEntry(0) != -1.0) {
+          direction.setEntry(0, 1.0);
+          direction.setEntry(1, 0.0);
+        }
+
+        break;
+    }
   }
+
 }

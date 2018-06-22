@@ -57,7 +57,7 @@ public final class GameEngine {
       }
 
       // Process key input
-      this.keyboardInputHandler.processCallbacks();
+      this.keyboardInputHandler.processCallbacks(this.level.getInputEventListenerList());
 
       this.update();
       this.render();
@@ -74,6 +74,8 @@ public final class GameEngine {
 
     // Update game if it was not paused
     if (!paused) {
+      this.level.preUpdate();
+
       for (GameObject object : this.level.getObjectsList().getList()) {
         if (object.isActive()) {
           activeObjects.add(object);
@@ -81,9 +83,13 @@ public final class GameEngine {
         }
       }
 
+      this.level.update();
+
       for (GameObject object : activeObjects) {
         object.update();
       }
+
+      this.level.postUpdate();
 
       for (GameObject object : activeObjects) {
         object.postUpdate();
@@ -128,12 +134,11 @@ public final class GameEngine {
 
   private void executePreloadOperations() {
     GameObject.resetIdsCount();
-    this.keyboardInputHandler.clearCallbacks();
   }
 
   private void loadCachedLevel(Level level) {
     this.level = level;
-    this.level.onLoadFromCache(this);
+    this.level.onLoadedFromCache(this);
     System.out.println("[ENGINE] Getting from cache level " + level.getName());
   }
 
@@ -141,6 +146,7 @@ public final class GameEngine {
     this.level = level;
     this.level.getObjectsList().clear();
     this.level.load(this);
+    this.level.onLoaded(this);
     this.level.setLoaded(true);
 
     System.out.println("[ENGINE] Loaded level: " + level.getName()

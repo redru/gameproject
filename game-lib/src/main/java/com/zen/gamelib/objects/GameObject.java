@@ -3,13 +3,12 @@ package com.zen.gamelib.objects;
 import com.zen.gamelib.core.GameEngine;
 import com.zen.gamelib.core.Renderable;
 import com.zen.gamelib.core.Updatable;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.Map;
 import org.apache.commons.math3.linear.RealVector;
 
-public class GameObject implements Updatable, Renderable {
+public abstract class GameObject implements Updatable, Renderable {
 
   private static int ID_COUNT = 0;
 
@@ -25,10 +24,7 @@ public class GameObject implements Updatable, Renderable {
   private RealVector direction;
   private RealVector size;
   private Image image;
-  private Dictionary<String, Object> properties = new Hashtable<>(100);
-
-  private RenderCallback renderCallback = (context) -> { };
-  private UpdateCallback updateCallback = () -> { };
+  private Map<String, Object> properties = new Hashtable<>(100);
 
   public GameObject(String name) {
     this(GameObject.newId(), name);
@@ -51,29 +47,6 @@ public class GameObject implements Updatable, Renderable {
   public String toString() {
     return this.name + "@" + this.id;
   }
-
-  public void addProperty(String key, Object value) {
-    this.properties.put(key, value);
-  }
-
-  public Object getProperty(String key) {
-    return this.properties.get(key);
-  }
-
-  public void render(Graphics2D context) {
-    renderCallback.onRender(context);
-  }
-
-  @Override
-  public void preUpdate() { }
-
-  @Override
-  public void update() {
-    updateCallback.onUpdate();
-  }
-
-  @Override
-  public void postUpdate() { }
 
   public int getId() {
     return id;
@@ -156,24 +129,8 @@ public class GameObject implements Updatable, Renderable {
     this.image = image;
   }
 
-  public Dictionary<String, Object> getProperties() {
+  public Map<String, Object> getProperties() {
     return properties;
-  }
-
-  public RenderCallback getRenderCallback() {
-    return renderCallback;
-  }
-
-  public void setRenderCallback(RenderCallback renderCallback) {
-    this.renderCallback = renderCallback;
-  }
-
-  public UpdateCallback getUpdateCallback() {
-    return updateCallback;
-  }
-
-  public void setUpdateCallback(UpdateCallback updateCallback) {
-    this.updateCallback = updateCallback;
   }
 
 }
