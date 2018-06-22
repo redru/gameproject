@@ -7,6 +7,8 @@ import com.zen.gamelib.objects.GameObject;
 import com.zen.gamelib.resources.GameResources;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public final class GameEngine {
@@ -21,9 +23,6 @@ public final class GameEngine {
   private GameResources gameResources = new GameResources();
   private GameWindow gameWindow = new GameWindow();
   private KeyboardInputHandler keyboardInputHandler = new KeyboardInputHandler();
-
-  private FramePreUpdateCallback framePreUpdateCallback = () -> { };
-  private FramePostUpdateCallback framePostUpdateCallback = () -> { };
 
   public void initialize(GameConfiguration gameConfiguration) {
     this.validateGameConfiguration(gameConfiguration);
@@ -71,20 +70,25 @@ public final class GameEngine {
   }
 
   private void update() {
-    // Pre Update
-    this.framePreUpdateCallback.onPreUpdate();
+    List<GameObject> activeObjects = new ArrayList<>(this.level.getObjectsList().getList().size());
 
     // Update game if it was not paused
     if (!paused) {
       for (GameObject object : this.level.getObjectsList().getList()) {
         if (object.isActive()) {
-          object.update();
+          activeObjects.add(object);
+          object.preUpdate();
         }
       }
-    }
 
-    // Post Update
-    this.framePostUpdateCallback.onPostUpdate();
+      for (GameObject object : activeObjects) {
+        object.update();
+      }
+
+      for (GameObject object : activeObjects) {
+        object.postUpdate();
+      }
+    }
   }
 
   private void render() {
@@ -200,14 +204,6 @@ public final class GameEngine {
 
   public KeyboardInputHandler getKeyboardInputHandler() {
     return keyboardInputHandler;
-  }
-
-  public void setFramePreUpdateCallback(FramePreUpdateCallback framePreUpdateCallback) {
-    this.framePreUpdateCallback = framePreUpdateCallback;
-  }
-
-  public void setFramePostUpdateCallback(FramePostUpdateCallback framePostUpdateCallback) {
-    this.framePostUpdateCallback = framePostUpdateCallback;
   }
 
   // Singleton Section ------------------------------------

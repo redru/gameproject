@@ -24,7 +24,7 @@ public class GameObjectList {
     this.names = new String[this.capacity];
 
     for (int i = 0; i < this.capacity; i++) {
-      this.list.set(i, new GameObject());
+      this.list.set(i, new GameObject("OBJ_" + i));
     }
   }
 

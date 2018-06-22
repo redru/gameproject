@@ -1,18 +1,20 @@
 package com.zen.gamelib.level;
 
 import com.zen.gamelib.core.GameEngine;
+import com.zen.gamelib.core.Updatable;
 import com.zen.gamelib.input.KeyCallback;
 import com.zen.gamelib.util.GameObjectList;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Level {
+public abstract class Level implements Updatable {
 
   private String name;
   private boolean loaded;
   private boolean cacheable;
 
   private GameObjectList objectsList;
+
   private List<KeyCallback> keyCallbackList = new ArrayList<>(20);
 
   public Level(String name, int totalObjects, boolean cacheable) {

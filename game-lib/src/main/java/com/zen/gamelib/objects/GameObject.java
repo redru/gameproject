@@ -1,36 +1,34 @@
 package com.zen.gamelib.objects;
 
 import com.zen.gamelib.core.GameEngine;
+import com.zen.gamelib.core.Renderable;
+import com.zen.gamelib.core.Updatable;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import org.apache.commons.math3.linear.RealVector;
 
-public class GameObject {
+public class GameObject implements Updatable, Renderable {
 
   private static int ID_COUNT = 0;
 
   private int id;
   private String name;
   private boolean active;
-  private boolean hidden = false;
+  private boolean hidden;
+  private float velocity;
+  private float effectiveVelocity;
+
   private RealVector position;
   private RealVector previousPosition;
   private RealVector direction;
   private RealVector size;
-  private float velocity;
-  private float effectiveVelocity;
-
   private Image image;
   private Dictionary<String, Object> properties = new Hashtable<>(100);
 
   private RenderCallback renderCallback = (context) -> { };
   private UpdateCallback updateCallback = () -> { };
-
-  public GameObject() {
-    this("DEFAULT");
-  }
 
   public GameObject(String name) {
     this(GameObject.newId(), name);
@@ -66,9 +64,16 @@ public class GameObject {
     renderCallback.onRender(context);
   }
 
+  @Override
+  public void preUpdate() { }
+
+  @Override
   public void update() {
     updateCallback.onUpdate();
   }
+
+  @Override
+  public void postUpdate() { }
 
   public int getId() {
     return id;

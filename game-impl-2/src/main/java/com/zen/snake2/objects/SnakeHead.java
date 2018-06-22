@@ -1,6 +1,7 @@
 package com.zen.snake2.objects;
 
 import com.zen.gamelib.core.GameEngine;
+import com.zen.gamelib.core.InputEventListener;
 import com.zen.gamelib.objects.GameObject;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,7 +10,7 @@ import java.awt.event.KeyEvent;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
 
-public class SnakeHead extends GameObject {
+public class SnakeHead extends GameObject implements InputEventListener {
 
   public SnakeHead() {
     super("SNAKE_HEAD");
@@ -83,4 +84,8 @@ public class SnakeHead extends GameObject {
     );
   }
 
+  @Override
+  public void onKeyPress(int key) {
+
+  }
 }

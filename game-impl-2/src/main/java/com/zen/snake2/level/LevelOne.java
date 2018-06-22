@@ -27,4 +27,13 @@ public class LevelOne extends Level {
     }
   }
 
+  @Override
+  public void preUpdate() { }
+
+  @Override
+  public void update() { }
+
+  @Override
+  public void postUpdate() { }
+
 }

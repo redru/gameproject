@@ -14,8 +14,7 @@ public class LevelTitleScreen extends Level {
   @Override
   public void load(GameEngine engine) {
     try {
-      GameObject background = new GameObject();
-      background.setName("BACKGROUND");
+      GameObject background = new GameObject("BACKGROUND");
       background.setImage(engine.getGameResources().getImage("title_bg"));
 
       background.setRenderCallback(context -> {
@@ -27,5 +26,14 @@ public class LevelTitleScreen extends Level {
       e.printStackTrace();
     }
   }
+
+  @Override
+  public void preUpdate() { }
+
+  @Override
+  public void update() { }
+
+  @Override
+  public void postUpdate() { }
 
 }
