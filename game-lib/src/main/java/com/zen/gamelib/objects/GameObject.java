@@ -1,36 +1,33 @@
 package com.zen.gamelib.objects;
 
 import com.zen.gamelib.core.GameEngine;
-import java.awt.Graphics2D;
+import com.zen.gamelib.core.Renderable;
+import com.zen.gamelib.core.Updatable;
 import java.awt.Image;
-import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.Map;
 import org.apache.commons.math3.linear.RealVector;
 
-public class GameObject {
+public abstract class GameObject implements Updatable, Renderable {
 
   private static int ID_COUNT = 0;
 
-  private int id;
-  private String name;
-  private boolean active;
-  private boolean hidden = false;
-  private RealVector position;
-  private RealVector previousPosition;
-  private RealVector direction;
-  private RealVector size;
-  private float velocity;
-  private float effectiveVelocity;
+  protected int id;
+  protected String name;
+  protected String group;
+  protected boolean active;
+  protected boolean hidden;
+  protected float velocity;
+  protected float effectiveVelocity;
 
-  private Image image;
-  private Dictionary<String, Object> properties = new Hashtable<>(100);
+  protected RealVector position;
+  protected RealVector previousPosition;
+  protected RealVector direction;
+  protected RealVector size;
+  protected Image image;
+  protected Map<String, Object> properties = new Hashtable<>(100);
 
-  private RenderCallback renderCallback = (context) -> { };
-  private UpdateCallback updateCallback = () -> { };
-
-  public GameObject() {
-    this("DEFAULT");
-  }
+  protected GameEngine engine = GameEngine.getInstance();
 
   public GameObject(String name) {
     this(GameObject.newId(), name);
@@ -51,23 +48,7 @@ public class GameObject {
 
   @Override
   public String toString() {
-    return this.name + "@" + this.id;
-  }
-
-  public void addProperty(String key, Object value) {
-    this.properties.put(key, value);
-  }
-
-  public Object getProperty(String key) {
-    return this.properties.get(key);
-  }
-
-  public void render(Graphics2D context) {
-    renderCallback.onRender(context);
-  }
-
-  public void update() {
-    updateCallback.onUpdate();
+    return this.name + "@" + this.id + " (" + this.group + ")";
   }
 
   public int getId() {
@@ -80,6 +61,14 @@ public class GameObject {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String getGroup() {
+    return group;
+  }
+
+  public void setGroup(String group) {
+    this.group = group;
   }
 
   public boolean isActive() {
@@ -151,24 +140,24 @@ public class GameObject {
     this.image = image;
   }
 
-  public Dictionary<String, Object> getProperties() {
+  public Map<String, Object> getProperties() {
     return properties;
   }
 
-  public RenderCallback getRenderCallback() {
-    return renderCallback;
+  public double getX() {
+    return this.position.getEntry(0);
   }
 
-  public void setRenderCallback(RenderCallback renderCallback) {
-    this.renderCallback = renderCallback;
+  public double getY() {
+    return this.position.getEntry(1);
   }
 
-  public UpdateCallback getUpdateCallback() {
-    return updateCallback;
+  public double getWidth() {
+    return this.size.getEntry(0);
   }
 
-  public void setUpdateCallback(UpdateCallback updateCallback) {
-    this.updateCallback = updateCallback;
+  public double getHeight() {
+    return this.size.getEntry(1);
   }
 
 }

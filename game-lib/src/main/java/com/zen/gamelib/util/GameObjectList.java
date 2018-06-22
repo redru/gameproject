@@ -2,6 +2,7 @@ package com.zen.gamelib.util;
 
 import com.zen.gamelib.exception.GameObjectNotFoundException;
 import com.zen.gamelib.exception.ObjectsLimitException;
+import com.zen.gamelib.objects.EmptyGameObject;
 import com.zen.gamelib.objects.GameObject;
 import java.util.Arrays;
 import java.util.List;
@@ -22,10 +23,6 @@ public class GameObjectList {
     this.list = Arrays.asList(new GameObject[this.capacity]);
     this.ids = new int[this.capacity];
     this.names = new String[this.capacity];
-
-    for (int i = 0; i < this.capacity; i++) {
-      this.list.set(i, new GameObject());
-    }
   }
 
   public GameObject findById(int id) throws GameObjectNotFoundException {
@@ -81,10 +78,28 @@ public class GameObjectList {
 
   private int getEmptySlot() {
     for (int i = 0; i < this.capacity; i++) {
-      if (!this.list.get(i).isActive()) return i;
+      GameObject object = this.list.get(i);
+
+      if (object == null || !object.isActive()) {
+        return i;
+      }
     }
 
     return -1;
+  }
+
+  public GameObject getInactiveObject() {
+    int slot = getEmptySlot();
+
+    return slot > -1 ? this.list.get(slot) : null;
+  }
+
+  public GameObject getInactiveObjectByGroup(String group) {
+    for (GameObject object : this.list) {
+      if (group.equals(object.getGroup()) && !object.isActive()) return object;
+    }
+
+    return null;
   }
 
   public void clear() {

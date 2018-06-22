@@ -1,6 +1,7 @@
 package com.zen.snake2.objects;
 
 import com.zen.gamelib.core.GameEngine;
+import com.zen.gamelib.core.InputEventListener;
 import com.zen.gamelib.objects.GameObject;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,7 +10,7 @@ import java.awt.event.KeyEvent;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
 
-public class SnakeHead extends GameObject {
+public class SnakeHead extends GameObject implements InputEventListener {
 
   public SnakeHead() {
     super("SNAKE_HEAD");
@@ -24,42 +25,10 @@ public class SnakeHead extends GameObject {
     double[] pos = new double[]{ screenDimension.getWidth() / 2, screenDimension.getHeight() / 2 };
     setPosition(new ArrayRealVector(pos));
     setPreviousPosition(new ArrayRealVector(pos));
-
-    engine.getKeyboardInputHandler().addCallback(key -> {
-      RealVector direction = getDirection();
-
-      switch (key) {
-        case KeyEvent.VK_W:
-          if (direction.getEntry(1) != -1.0) {
-            direction.setEntry(0, 0.0);
-            direction.setEntry(1, -1.0);
-          }
-
-          break;
-        case KeyEvent.VK_A:
-          if (direction.getEntry(0) != 1.0) {
-            direction.setEntry(0, -1.0);
-            direction.setEntry(1, 0.0);
-          }
-
-          break;
-        case KeyEvent.VK_S:
-          if (direction.getEntry(1) != -1.0) {
-            direction.setEntry(0, 0.0);
-            direction.setEntry(1, 1.0);
-          }
-
-          break;
-        case KeyEvent.VK_D:
-          if (direction.getEntry(0) != -1.0) {
-            direction.setEntry(0, 1.0);
-            direction.setEntry(1, 0.0);
-          }
-
-          break;
-      }
-    }, false);
   }
+
+  @Override
+  public void preUpdate() { }
 
   @Override
   public void update() {
@@ -69,6 +38,9 @@ public class SnakeHead extends GameObject {
         .add(getDirection().mapMultiply(getEffectiveVelocity()));
     setPosition(newPosition);
   }
+
+  @Override
+  public void postUpdate() { }
 
   @Override
   public void render(Graphics2D context) {
@@ -81,6 +53,42 @@ public class SnakeHead extends GameObject {
         0,
         360
     );
+  }
+
+  @Override
+  public void onKeyPress(int key) {
+    RealVector direction = getDirection();
+
+    switch (key) {
+      case KeyEvent.VK_W:
+        if (direction.getEntry(1) != -1.0) {
+          direction.setEntry(0, 0.0);
+          direction.setEntry(1, -1.0);
+        }
+
+        break;
+      case KeyEvent.VK_A:
+        if (direction.getEntry(0) != 1.0) {
+          direction.setEntry(0, -1.0);
+          direction.setEntry(1, 0.0);
+        }
+
+        break;
+      case KeyEvent.VK_S:
+        if (direction.getEntry(1) != -1.0) {
+          direction.setEntry(0, 0.0);
+          direction.setEntry(1, 1.0);
+        }
+
+        break;
+      case KeyEvent.VK_D:
+        if (direction.getEntry(0) != -1.0) {
+          direction.setEntry(0, 1.0);
+          direction.setEntry(1, 0.0);
+        }
+
+        break;
+    }
   }
 
 }

@@ -1,9 +1,9 @@
 package com.zen.gamelib.input;
 
+import com.zen.gamelib.core.InputEventListener;
 import java.awt.Component;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,8 +11,7 @@ import java.util.ListIterator;
 
 public class KeyboardInputHandler extends KeyAdapter {
 
-  private List<KeyCallback> callbacks = Collections.synchronizedList(new ArrayList<>(20));
-  private List<KeyCallback> persistentCallbacks = Collections.synchronizedList(new ArrayList<>(40));
+  private List<InputEventListener> callbacks = Collections.synchronizedList(new LinkedList<>());
   private List<Integer> keyBuffer = Collections.synchronizedList(new LinkedList<>());
 
   public KeyboardInputHandler() { }
@@ -21,20 +20,12 @@ public class KeyboardInputHandler extends KeyAdapter {
     component.addKeyListener(this);
   }
 
-  public void removeCallback(KeyCallback callback) {
+  public void removeCallback(InputEventListener callback) {
     this.callbacks.remove(callback);
   }
 
-  public void addCallback(KeyCallback callback) {
-    this.addCallback(callback, false);
-  }
-
-  public void addCallback(KeyCallback callback, boolean persistent) {
-    if (persistent) {
-      this.persistentCallbacks.add(callback);
-    } else {
-      this.callbacks.add(callback);
-    }
+  public void addCallback(InputEventListener callback) {
+    this.callbacks.add(callback);
   }
 
   public void clearCallbacks() {
@@ -47,7 +38,17 @@ public class KeyboardInputHandler extends KeyAdapter {
     while (iterator.hasNext()) {
       Integer key = iterator.next();
       this.callbacks.forEach(keyCallback -> keyCallback.onKeyPress(key));
-      this.persistentCallbacks.forEach(keyCallback -> keyCallback.onKeyPress(key));
+      iterator.remove();
+    }
+  }
+
+  public void processCallbacks(List<InputEventListener> externalCallbacks) {
+    ListIterator<Integer> iterator = this.keyBuffer.listIterator();
+
+    while (iterator.hasNext()) {
+      Integer key = iterator.next();
+      this.callbacks.forEach(keyCallback -> keyCallback.onKeyPress(key));
+      externalCallbacks.forEach(keyCallback -> keyCallback.onKeyPress(key));
       iterator.remove();
     }
   }

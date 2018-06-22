@@ -7,6 +7,8 @@ import com.zen.gamelib.objects.GameObject;
 import com.zen.gamelib.resources.GameResources;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public final class GameEngine {
@@ -21,9 +23,6 @@ public final class GameEngine {
   private GameResources gameResources = new GameResources();
   private GameWindow gameWindow = new GameWindow();
   private KeyboardInputHandler keyboardInputHandler = new KeyboardInputHandler();
-
-  private FramePreUpdateCallback framePreUpdateCallback = () -> { };
-  private FramePostUpdateCallback framePostUpdateCallback = () -> { };
 
   public void initialize(GameConfiguration gameConfiguration) {
     this.validateGameConfiguration(gameConfiguration);
@@ -58,7 +57,7 @@ public final class GameEngine {
       }
 
       // Process key input
-      this.keyboardInputHandler.processCallbacks();
+      this.keyboardInputHandler.processCallbacks(this.level.getInputEventListenerList());
 
       this.update();
       this.render();
@@ -71,20 +70,27 @@ public final class GameEngine {
   }
 
   private void update() {
-    // Pre Update
-    this.framePreUpdateCallback.onPreUpdate();
+    List<GameObject> list = this.level.getObjectsList().getList();
 
-    // Update game if it was not paused
     if (!paused) {
-      for (GameObject object : this.level.getObjectsList().getList()) {
-        if (object.isActive()) {
-          object.update();
-        }
+      this.level.preUpdate();
+
+      for (GameObject object : list) {
+        if (object.isActive()) object.preUpdate();
+      }
+
+      this.level.update();
+
+      for (GameObject object : list) {
+        if (object.isActive()) object.update();
+      }
+
+      this.level.postUpdate();
+
+      for (GameObject object : list) {
+        if (object.isActive()) object.postUpdate();
       }
     }
-
-    // Post Update
-    this.framePostUpdateCallback.onPostUpdate();
   }
 
   private void render() {
@@ -124,12 +130,11 @@ public final class GameEngine {
 
   private void executePreloadOperations() {
     GameObject.resetIdsCount();
-    this.keyboardInputHandler.clearCallbacks();
   }
 
   private void loadCachedLevel(Level level) {
     this.level = level;
-    this.level.onLoadFromCache(this);
+    this.level.onLoadedFromCache(this);
     System.out.println("[ENGINE] Getting from cache level " + level.getName());
   }
 
@@ -137,6 +142,7 @@ public final class GameEngine {
     this.level = level;
     this.level.getObjectsList().clear();
     this.level.load(this);
+    this.level.onLoaded(this);
     this.level.setLoaded(true);
 
     System.out.println("[ENGINE] Loaded level: " + level.getName()
@@ -200,14 +206,6 @@ public final class GameEngine {
 
   public KeyboardInputHandler getKeyboardInputHandler() {
     return keyboardInputHandler;
-  }
-
-  public void setFramePreUpdateCallback(FramePreUpdateCallback framePreUpdateCallback) {
-    this.framePreUpdateCallback = framePreUpdateCallback;
-  }
-
-  public void setFramePostUpdateCallback(FramePostUpdateCallback framePostUpdateCallback) {
-    this.framePostUpdateCallback = framePostUpdateCallback;
   }
 
   // Singleton Section ------------------------------------

@@ -34,7 +34,7 @@ public class Snake2 {
         default:
           break;
       }
-    }, true);
+    });
 
     engine.loadLevel(titleScreen);
     engine.start();

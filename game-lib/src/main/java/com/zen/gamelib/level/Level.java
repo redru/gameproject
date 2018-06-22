@@ -1,19 +1,22 @@
 package com.zen.gamelib.level;
 
 import com.zen.gamelib.core.GameEngine;
-import com.zen.gamelib.input.KeyCallback;
+import com.zen.gamelib.core.InputEventListener;
+import com.zen.gamelib.core.Updatable;
+import com.zen.gamelib.objects.GameObject;
 import com.zen.gamelib.util.GameObjectList;
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
-public abstract class Level {
+public abstract class Level implements Updatable {
 
-  private String name;
-  private boolean loaded;
-  private boolean cacheable;
+  protected String name;
+  protected boolean loaded;
+  protected boolean cacheable;
 
-  private GameObjectList objectsList;
-  private List<KeyCallback> keyCallbackList = new ArrayList<>(20);
+  protected GameObjectList objectsList;
+  protected List<InputEventListener> inputEventListenerList = Collections.synchronizedList(new LinkedList<>());
 
   public Level(String name, int totalObjects, boolean cacheable) {
     this.name = name;
@@ -21,9 +24,17 @@ public abstract class Level {
     this.cacheable = cacheable;
   }
 
-  public void onLoadFromCache(GameEngine engine) { }
-
   public void load(GameEngine engine) { }
+
+  public final void onLoaded(GameEngine engine) {
+    for (GameObject object : objectsList.getList()) {
+      if (object instanceof InputEventListener) {
+        inputEventListenerList.add((InputEventListener) object);
+      }
+    }
+  }
+
+  public void onLoadedFromCache(GameEngine engine) { }
 
   public String getName() {
     return name;
@@ -57,8 +68,12 @@ public abstract class Level {
     this.objectsList = objectsList;
   }
 
-  public List<KeyCallback> getKeyCallbackList() {
-    return keyCallbackList;
+  public List<InputEventListener> getInputEventListenerList() {
+    return inputEventListenerList;
+  }
+
+  public void setInputEventListenerList(List<InputEventListener> inputEventListenerList) {
+    this.inputEventListenerList = inputEventListenerList;
   }
 
 }
