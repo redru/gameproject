@@ -70,29 +70,24 @@ public final class GameEngine {
   }
 
   private void update() {
-    List<GameObject> activeObjects = new ArrayList<>(this.level.getObjectsList().getList().size());
-
     // Update game if it was not paused
     if (!paused) {
       this.level.preUpdate();
 
       for (GameObject object : this.level.getObjectsList().getList()) {
-        if (object.isActive()) {
-          activeObjects.add(object);
-          object.preUpdate();
-        }
+        if (object.isActive()) object.preUpdate();
       }
 
       this.level.update();
 
-      for (GameObject object : activeObjects) {
-        object.update();
+      for (GameObject object : this.level.getObjectsList().getList()) {
+        if (object.isActive()) object.update();
       }
 
       this.level.postUpdate();
 
-      for (GameObject object : activeObjects) {
-        object.postUpdate();
+      for (GameObject object : this.level.getObjectsList().getList()) {
+        if (object.isActive()) object.postUpdate();
       }
     }
   }
