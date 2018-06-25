@@ -115,6 +115,8 @@ public final class GameEngine {
     try {
       this.executePreloadOperations();
 
+      this.level = level;
+
       if (level.isCacheable() && level.isLoaded()) {
         this.loadCachedLevel(level);
         return;
@@ -133,17 +135,15 @@ public final class GameEngine {
   }
 
   private void loadCachedLevel(Level level) {
-    this.level = level;
-    this.level.onLoadedFromCache(this);
+    level.onLoadedFromCache(this);
     System.out.println("[ENGINE] Getting from cache level " + level.getName());
   }
 
   private void loadNewLevel(Level level) {
-    this.level = level;
-    this.level.getObjectsList().clear();
-    this.level.load(this);
-    this.level.onLoaded(this);
-    this.level.setLoaded(true);
+    level.getObjectsList().clear();
+    level.load(this);
+    level.onLoaded(this);
+    level.setLoaded(true);
 
     System.out.println("[ENGINE] Loaded level: " + level.getName()
         + "\n[ENGINE] Total object created: " + level.getObjectsList().getCapacity());

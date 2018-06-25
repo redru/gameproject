@@ -4,7 +4,6 @@ import com.zen.gamelib.core.GameEngine;
 import com.zen.gamelib.exception.ObjectsLimitException;
 import com.zen.gamelib.level.Level;
 import com.zen.gamelib.objects.GameObject;
-import com.zen.gamelib.util.GameObjectList;
 import com.zen.snake2.objects.SnakeHead;
 import com.zen.snake2.objects.Square;
 

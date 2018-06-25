@@ -2,7 +2,6 @@ package com.zen.gamelib.util;
 
 import com.zen.gamelib.exception.GameObjectNotFoundException;
 import com.zen.gamelib.exception.ObjectsLimitException;
-import com.zen.gamelib.objects.EmptyGameObject;
 import com.zen.gamelib.objects.GameObject;
 import java.util.Arrays;
 import java.util.List;

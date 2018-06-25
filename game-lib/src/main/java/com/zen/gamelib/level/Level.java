@@ -16,7 +16,8 @@ public abstract class Level implements Updatable {
   protected boolean cacheable;
 
   protected GameObjectList objectsList;
-  protected List<InputEventListener> inputEventListenerList = Collections.synchronizedList(new LinkedList<>());
+  protected List<InputEventListener> inputEventListenerList =
+      Collections.synchronizedList(new LinkedList<>());
 
   public Level(String name, int totalObjects, boolean cacheable) {
     this.name = name;

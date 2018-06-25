@@ -18,6 +18,7 @@ public class SnakeHead extends GameObject implements InputEventListener {
     GameEngine engine = GameEngine.getInstance();
     Dimension screenDimension = engine.getGameConfiguration().getGameWindowDimension();
 
+    setGroup("SNAKE");
     setVelocity(300F);
     setSize(new ArrayRealVector(new double[]{ 15.0, 15.0 }));
     setDirection(new ArrayRealVector(new double[]{ 0.0, 0.0 }));
