@@ -8,11 +8,12 @@ import javax.swing.JLabel;
 public class LoadImageApp extends Component {
 
 	private JLabel label;
+	private ImageIcon icon;
 	private GameEngine gameEngine = GameEngine.getInstance();
 
 	public LoadImageApp() throws Exception {
-		ImageIcon icon = new ImageIcon(gameEngine.getGameResources().getImage("title_bg"));
-		label = new JLabel(icon);
+		this.icon = new ImageIcon(gameEngine.getGameResources().getImage("title_bg"));
+		this.label = new JLabel(icon);
 	}
 
 	public JLabel getLabel() {
@@ -21,6 +22,14 @@ public class LoadImageApp extends Component {
 
 	public void setLabel(JLabel label) {
 		this.label = label;
+	}
+
+	public ImageIcon getIcon() {
+		return icon;
+	}
+
+	public void setIcon(ImageIcon icon) {
+		this.icon = icon;
 	}
 
 }
