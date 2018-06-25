@@ -1,7 +1,7 @@
 package com.zen.snake.core;
 
-import com.zen.gamelib.core.GameEngine;
 import java.awt.Component;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -9,10 +9,10 @@ public class LoadImageApp extends Component {
 
 	private JLabel label;
 	private ImageIcon icon;
-	private GameEngine gameEngine = GameEngine.getInstance();
 
 	public LoadImageApp() throws Exception {
-		this.icon = new ImageIcon(gameEngine.getGameResources().getImage("title_bg"));
+		this.icon = new ImageIcon(ImageIO.read(
+				getClass().getResourceAsStream("/assets/images/title_screen_background.jpeg")));
 		this.label = new JLabel(icon);
 	}
 

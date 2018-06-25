@@ -1,8 +1,5 @@
 package com.zen.snake.core;
 
-import com.zen.gamelib.core.GameConfiguration;
-import com.zen.gamelib.core.GameEngine;
-
 public class Main {
 
   private Main() throws Exception {
@@ -14,7 +11,6 @@ public class Main {
   }
 
   public static void main(String[] args) throws Exception {
-    GameEngine.getInstance().initialize(new GameConfiguration());
     new Main();
   }
 
