@@ -1,8 +1,8 @@
 package com.zen.snake2;
 
 import com.zen.gamelib.level.Level;
-import com.zen.snake2.level.LevelOne;
-import com.zen.snake2.level.LevelTitleScreen;
+import com.zen.snake2.level.one.LevelOne;
+import com.zen.snake2.level.title.LevelTitleScreen;
 import com.zen.gamelib.core.GameConfiguration;
 import com.zen.gamelib.core.GameEngine;
 import java.awt.Toolkit;

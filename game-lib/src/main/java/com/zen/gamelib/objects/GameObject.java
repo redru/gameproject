@@ -30,12 +30,17 @@ public abstract class GameObject implements Updatable, Renderable {
   protected GameEngine engine = GameEngine.getInstance();
 
   public GameObject(String name) {
-    this(GameObject.newId(), name);
+    this(name, GameObject.newId());
   }
 
-  public GameObject(int id, String name) {
+  public GameObject(String name, int id) {
+    this(name, id, "DEF_GROUP");
+  }
+
+  public GameObject(String name, int id, String group) {
     this.id = id;
     this.name = name;
+    this.group = group;
   }
 
   public static int newId() {

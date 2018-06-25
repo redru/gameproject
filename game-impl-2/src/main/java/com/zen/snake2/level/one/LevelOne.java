@@ -1,4 +1,4 @@
-package com.zen.snake2.level;
+package com.zen.snake2.level.one;
 
 import com.zen.gamelib.core.GameEngine;
 import com.zen.gamelib.exception.ObjectsLimitException;
@@ -16,9 +16,10 @@ public class LevelOne extends Level {
   @Override
   public void load(GameEngine engine) {
     try {
+      objectsList.addGameObject(new LevelOneScript("LEVEL_ONE_CORE"));
       objectsList.addGameObject(new SnakeHead());
 
-      for (int i = 1; i < objectsList.getCapacity(); i++) {
+      for (int i = 2; i < objectsList.getCapacity(); i++) {
         Square greenSquare = new Square("MOCK");
         greenSquare.setGroup("GREEN_SQUARE");
         objectsList.addGameObject(greenSquare);
@@ -27,21 +28,5 @@ public class LevelOne extends Level {
       e.printStackTrace();
     }
   }
-
-  @Override
-  public void preUpdate() {
-    GameObject object = objectsList.getInactiveObjectByGroup("GREEN_SQUARE");
-
-    if (object != null) {
-      ((Square) object).randomInitialization();
-      object.setActive(true);
-    }
-  }
-
-  @Override
-  public void update() { }
-
-  @Override
-  public void postUpdate() { }
 
 }

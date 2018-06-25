@@ -2,14 +2,13 @@ package com.zen.gamelib.level;
 
 import com.zen.gamelib.core.GameEngine;
 import com.zen.gamelib.core.InputEventListener;
-import com.zen.gamelib.core.Updatable;
 import com.zen.gamelib.objects.GameObject;
 import com.zen.gamelib.util.GameObjectList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class Level implements Updatable {
+public abstract class Level {
 
   protected String name;
   protected boolean loaded;

@@ -1,4 +1,4 @@
-package com.zen.snake2.level;
+package com.zen.snake2.level.title;
 
 import com.zen.gamelib.core.GameEngine;
 import com.zen.gamelib.exception.ObjectsLimitException;
@@ -20,14 +20,5 @@ public class LevelTitleScreen extends Level {
       e.printStackTrace();
     }
   }
-
-  @Override
-  public void preUpdate() { }
-
-  @Override
-  public void update() { }
-
-  @Override
-  public void postUpdate() { }
 
 }
