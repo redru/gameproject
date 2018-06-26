@@ -3,12 +3,14 @@ package com.zen.snake.core;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.imageio.ImageIO;
 
 public class Main {
 	
 	private boolean running = true;
-	private MouseListenerHome mouseListenerHome = new MouseListenerHome();
+	private MouseHandler mouseHandler = new MouseHandler();
 	private WindowInterface window;
 	private TitleScreenElements titleScreenElements;
 	private Graphics2D context;
@@ -30,7 +32,19 @@ public class Main {
 	}
 
 	private void startInputListeners() {
-    window.getJFrame().addMouseListener(mouseListenerHome);
+    window.getJFrame().addMouseListener(new MouseAdapter() {
+
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        super.mouseClicked(e);
+        System.out.println("Coordenada X: " + e.getX() + " Coordenada Y: " + e.getY());
+
+        if((e.getX() >= 0 && e.getX() <= 100) && (e.getY() >= 200 && e.getY() <= 250)) {
+          System.out.println("Loading level 1");
+        }
+      }
+
+    });
   }
 
   private void clearScreen() {
@@ -44,10 +58,14 @@ public class Main {
     titleScreenElements.render(context);
   }
 
+  private void handleInputs() {
+
+  }
+
 	private void start() throws InterruptedException {
 		while(running) {
       render();
-		  Thread.sleep(16);
+		  Thread.sleep(32);
 		}
 	}
 

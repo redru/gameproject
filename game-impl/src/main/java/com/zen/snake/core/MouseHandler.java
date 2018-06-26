@@ -3,9 +3,9 @@ package com.zen.snake.core;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class MouseListenerHome implements MouseListener {
+public class MouseHandler implements MouseListener {
 	
-	public MouseListenerHome() {
+	public MouseHandler() {
 		
 	}
 	
