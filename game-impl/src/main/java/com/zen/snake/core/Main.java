@@ -2,21 +2,24 @@ package com.zen.snake.core;
 
 public class Main {
 	
-	private boolean runningHome = true;
+	private boolean running = true;
 	private MouseListenerHome mouseListenerHome = new MouseListenerHome();
+	private WindowInterface window;
 
 	private Main() throws Exception {
 		startInterface();
-		homeEngine();
+		start();
 	}
 
 	private void startInterface() throws Exception {
-		new Interface();
+    window = new WindowInterface();
 	}
 
-	private void homeEngine() {
-		while(runningHome) {
-			
+	private void start() throws InterruptedException {
+		while(running) {
+
+
+		  Thread.sleep(16);
 		}
 	}
 
