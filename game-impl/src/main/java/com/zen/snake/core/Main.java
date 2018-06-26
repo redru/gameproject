@@ -1,5 +1,7 @@
 package com.zen.snake.core;
 
+import com.zen.snake.level.LevelOne;
+import com.zen.snake.level.TitleScreenLevel;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
@@ -10,7 +12,8 @@ public class Main {
 	
 	private boolean running = true;
 	private WindowInterface window;
-	private TitleScreenElements titleScreenElements;
+	private TitleScreenLevel titleScreenLevel;
+	private LevelOne levelOne;
 	private Graphics2D context;
 	private int level;
 
@@ -23,7 +26,8 @@ public class Main {
 	private void startInterface() throws IOException {
     window = new WindowInterface();
     context = (Graphics2D) window.getJFrame().getGraphics();
-    titleScreenElements = new TitleScreenElements();
+    titleScreenLevel = new TitleScreenLevel();
+    levelOne = new LevelOne();
 	}
 
 	private void startInputListeners() {
@@ -45,11 +49,20 @@ public class Main {
 
   private void render() {
 	  clearScreen();
-    titleScreenElements.render(context);
+
+	  switch (level) {
+      case 0:
+        titleScreenLevel.render(context);
+        break;
+      case 1:
+        levelOne.render(context);
+        break;
+    }
+
   }
 
   private void handleInputs(MouseEvent e) {
-    titleScreenElements.onMouseClick(this, e);
+    titleScreenLevel.onMouseClick(this, e);
   }
 
 	private void start() throws InterruptedException {

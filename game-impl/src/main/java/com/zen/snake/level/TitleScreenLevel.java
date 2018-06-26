@@ -1,5 +1,6 @@
-package com.zen.snake.core;
+package com.zen.snake.level;
 
+import com.zen.snake.core.Main;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -7,11 +8,11 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-public class TitleScreenElements {
+public class TitleScreenLevel {
 
 	private Image background;
 
-	public TitleScreenElements() throws IOException {
+	public TitleScreenLevel() throws IOException {
 		background = ImageIO.read(
 				getClass().getResourceAsStream("/assets/images/title_screen_background.jpeg"));
 	}
