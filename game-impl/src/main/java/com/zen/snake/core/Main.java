@@ -11,6 +11,7 @@ public class Main {
 	private MouseListenerHome mouseListenerHome = new MouseListenerHome();
 	private WindowInterface window;
 	private Graphics2D context;
+	private int level;
 
 	private Image background = ImageIO.read(
       getClass().getResourceAsStream("/assets/images/title_screen_background.jpeg"));
@@ -37,6 +38,9 @@ public class Main {
 
   private void render() {
 	  clearScreen();
+
+
+
     context.drawImage(background, 0,0, null);
   }
 
