@@ -2,6 +2,8 @@ package com.zen.snake.core;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import javax.imageio.ImageIO;
 
 public class Main {
 	
@@ -9,6 +11,9 @@ public class Main {
 	private MouseListenerHome mouseListenerHome = new MouseListenerHome();
 	private WindowInterface window;
 	private Graphics2D context;
+
+	private Image background = ImageIO.read(
+      getClass().getResourceAsStream("/assets/images/title_screen_background.jpeg"));
 
 	private Main() throws Exception {
 		startInterface();
@@ -30,9 +35,14 @@ public class Main {
     context.fillRect(0, 0, 800, 450);
   }
 
+  private void render() {
+	  clearScreen();
+    context.drawImage(background, 0,0, null);
+  }
+
 	private void start() throws InterruptedException {
 		while(running) {
-      clearScreen();
+      render();
 		  Thread.sleep(16);
 		}
 	}
