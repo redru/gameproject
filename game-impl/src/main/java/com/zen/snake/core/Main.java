@@ -62,7 +62,15 @@ public class Main {
   }
 
   private void handleInputs(MouseEvent e) {
-    titleScreenLevel.onMouseClick(this, e);
+    switch (level) {
+      case 0:
+        titleScreenLevel.onMouseClick(this, e);
+        break;
+      case 1:
+        levelOne.onMouseClick(this, e);
+        break;
+    }
+
   }
 
 	private void start() throws InterruptedException {
