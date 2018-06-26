@@ -10,6 +10,7 @@ public class Main {
 	private boolean running = true;
 	private MouseListenerHome mouseListenerHome = new MouseListenerHome();
 	private WindowInterface window;
+	private TitleScreenElements titleScreenElements;
 	private Graphics2D context;
 	private int level;
 
@@ -25,6 +26,7 @@ public class Main {
 	private void startInterface() {
     window = new WindowInterface();
     context = (Graphics2D) window.getJFrame().getGraphics();
+    titleScreenElements = new TitleScreenElements();
 	}
 
 	private void startInputListeners() {
@@ -38,10 +40,8 @@ public class Main {
 
   private void render() {
 	  clearScreen();
-
-
-
     context.drawImage(background, 0,0, null);
+    titleScreenElements.render(context);
   }
 
 	private void start() throws InterruptedException {
