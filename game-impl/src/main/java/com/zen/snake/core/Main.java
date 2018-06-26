@@ -10,7 +10,6 @@ import javax.imageio.ImageIO;
 public class Main {
 	
 	private boolean running = true;
-	private MouseHandler mouseHandler = new MouseHandler();
 	private WindowInterface window;
 	private TitleScreenElements titleScreenElements;
 	private Graphics2D context;
@@ -37,11 +36,7 @@ public class Main {
       @Override
       public void mouseClicked(MouseEvent e) {
         super.mouseClicked(e);
-        System.out.println("Coordenada X: " + e.getX() + " Coordenada Y: " + e.getY());
-
-        if((e.getX() >= 0 && e.getX() <= 100) && (e.getY() >= 200 && e.getY() <= 250)) {
-          System.out.println("Loading level 1");
-        }
+        handleInputs(e);
       }
 
     });
@@ -58,8 +53,8 @@ public class Main {
     titleScreenElements.render(context);
   }
 
-  private void handleInputs() {
-
+  private void handleInputs(MouseEvent e) {
+    titleScreenElements.onMouseClick(this, e);
   }
 
 	private void start() throws InterruptedException {
@@ -72,5 +67,21 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		new Main();
 	}
+
+  public Graphics2D getContext() {
+    return context;
+  }
+
+  public void setContext(Graphics2D context) {
+    this.context = context;
+  }
+
+  public int getLevel() {
+    return level;
+  }
+
+  public void setLevel(int level) {
+    this.level = level;
+  }
 
 }
