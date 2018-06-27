@@ -29,7 +29,7 @@ public class Square extends GameObject {
 
   @Override
   public void update() {
-    position = position.add(direction.mapMultiply(getEffectiveVelocity()));
+    position = position.add(direction.mapMultiply(velocity * engine.getElapsedTimeInSeconds()));
   }
 
   @Override

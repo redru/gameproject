@@ -18,7 +18,6 @@ public abstract class GameObject implements Updatable, Renderable {
   protected boolean active;
   protected boolean hidden;
   protected float velocity;
-  protected float effectiveVelocity;
 
   protected RealVector position;
   protected RealVector previousPosition;
@@ -130,11 +129,6 @@ public abstract class GameObject implements Updatable, Renderable {
 
   public void setVelocity(float velocity) {
     this.velocity = velocity;
-    this.effectiveVelocity = velocity * GameEngine.getInstance().getGameConfiguration().getFpsTimeInSeconds();
-  }
-
-  public float getEffectiveVelocity() {
-    return this.effectiveVelocity;
   }
 
   public Image getImage() {

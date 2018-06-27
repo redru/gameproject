@@ -36,7 +36,7 @@ public class SnakeHead extends GameObject implements InputEventListener {
     setPreviousPosition(getPosition());
 
     RealVector newPosition = getPosition()
-        .add(getDirection().mapMultiply(getEffectiveVelocity()));
+        .add(getDirection().mapMultiply(velocity * engine.getElapsedTimeInSeconds()));
     setPosition(newPosition);
   }
 

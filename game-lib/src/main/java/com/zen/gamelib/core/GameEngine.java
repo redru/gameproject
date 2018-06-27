@@ -15,6 +15,8 @@ public final class GameEngine {
   private volatile boolean running = false;
   private volatile boolean paused = false;
 
+  private double elapsedTimeInSeconds = 0.0;
+
   private Level level;
   private Level levelToBeLoaded;
 
@@ -41,6 +43,7 @@ public final class GameEngine {
 
     long lastTime = System.nanoTime();
     long currentTime;
+    long elapsedTime = 0L;
 
     while (this.running) {
       if (this.levelToBeLoaded != null) {
@@ -48,12 +51,15 @@ public final class GameEngine {
       }
 
       currentTime = System.nanoTime();
+      elapsedTime = currentTime - lastTime;
 
       // Do nothing if fps time was not passed
-      if (currentTime - lastTime < this.gameConfiguration.getFpsTime()) {
+      if (elapsedTime < this.gameConfiguration.getFpsTime()) {
         Thread.yield();
         continue;
       }
+
+      this.elapsedTimeInSeconds = elapsedTime / 1000000000.0;
 
       // Process key input
       this.keyboardInputHandler.processCallbacks(this.level.getInputEventListenerList());
@@ -179,6 +185,10 @@ public final class GameEngine {
 
   public void setPaused(boolean paused) {
     this.paused = paused;
+  }
+
+  public double getElapsedTimeInSeconds() {
+    return elapsedTimeInSeconds;
   }
 
   public Level getLevel() {
