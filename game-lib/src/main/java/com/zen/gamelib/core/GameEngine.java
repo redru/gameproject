@@ -5,6 +5,7 @@ import com.zen.gamelib.input.KeyboardInputHandler;
 import com.zen.gamelib.level.Level;
 import com.zen.gamelib.objects.GameObject;
 import com.zen.gamelib.resources.GameResources;
+import com.zen.gamelib.util.GameMetrics;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.util.List;
@@ -24,6 +25,7 @@ public final class GameEngine {
   private GameResources gameResources = new GameResources();
   private GameWindow gameWindow = new GameWindow();
   private KeyboardInputHandler keyboardInputHandler = new KeyboardInputHandler();
+  private GameMetrics gameMetrics = new GameMetrics();
 
   public void initialize(GameConfiguration gameConfiguration) {
     this.validateGameConfiguration(gameConfiguration);
@@ -34,6 +36,7 @@ public final class GameEngine {
     this.gameWindow.initialize(gameConfiguration);
     this.gameWindow.setOnCloseEvent(() -> this.running = false);
     this.keyboardInputHandler.initialize(this.gameWindow.getKeyEventContext());
+    this.gameMetrics.configure(this.gameWindow.getSize());
   }
 
   public void start() {
@@ -43,7 +46,7 @@ public final class GameEngine {
 
     long lastTime = System.nanoTime();
     long currentTime;
-    long elapsedTime = 0L;
+    long elapsedTime;
 
     while (this.running) {
       if (this.levelToBeLoaded != null) {
@@ -162,7 +165,7 @@ public final class GameEngine {
       gameConfiguration.setTitle(UUID.randomUUID().toString());
     }
 
-    if (gameConfiguration.getGameWindowDimension() == null) {
+    if (!gameConfiguration.isFullScreen() && gameConfiguration.getGameWindowDimension() == null) {
       gameConfiguration.setGameWindowDimension(new Dimension(500, 500));
     }
 
@@ -209,6 +212,10 @@ public final class GameEngine {
 
   public KeyboardInputHandler getKeyboardInputHandler() {
     return keyboardInputHandler;
+  }
+
+  public GameMetrics getGameMetrics() {
+    return gameMetrics;
   }
 
   // Singleton Section ------------------------------------

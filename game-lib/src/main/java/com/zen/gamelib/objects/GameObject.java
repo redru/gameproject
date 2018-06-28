@@ -6,6 +6,7 @@ import com.zen.gamelib.core.Updatable;
 import java.awt.Image;
 import java.util.Hashtable;
 import java.util.Map;
+import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
 
 public abstract class GameObject implements Updatable, Renderable {
@@ -17,12 +18,20 @@ public abstract class GameObject implements Updatable, Renderable {
   protected String group;
   protected boolean active;
   protected boolean hidden;
-  protected float velocity;
 
-  protected RealVector position;
-  protected RealVector previousPosition;
-  protected RealVector direction;
-  protected RealVector size;
+  protected float velocity;
+  protected float screenVelocity;
+
+  protected RealVector position = new ArrayRealVector(new double[2]);
+  protected RealVector screenPosition = new ArrayRealVector(new double[2]);
+
+  protected RealVector size = new ArrayRealVector(new double[2]);
+  protected RealVector screenSize = new ArrayRealVector(new double[2]);
+
+  protected RealVector previousPosition = new ArrayRealVector(new double[2]);
+  protected RealVector screenPreviousPosition = new ArrayRealVector(new double[2]);
+
+  protected RealVector direction = new ArrayRealVector(new double[2]);
   protected Image image;
   protected Map<String, Object> properties = new Hashtable<>(100);
 
@@ -96,7 +105,11 @@ public abstract class GameObject implements Updatable, Renderable {
   }
 
   public void setPosition(RealVector position) {
-    this.position = position;
+    this.position.setEntry(0, position.getEntry(0));
+    this.position.setEntry(1, position.getEntry(1));
+
+    this.screenPosition.setEntry(0, engine.getGameMetrics().adjustX((float) position.getEntry(0)));
+    this.screenPosition.setEntry(1, engine.getGameMetrics().adjustY((float) position.getEntry(1)));
   }
 
   public RealVector getPreviousPosition() {
@@ -104,7 +117,11 @@ public abstract class GameObject implements Updatable, Renderable {
   }
 
   public void setPreviousPosition(RealVector previousPosition) {
-    this.previousPosition = previousPosition;
+    this.previousPosition.setEntry(0, previousPosition.getEntry(0));
+    this.previousPosition.setEntry(1, previousPosition.getEntry(1));
+
+    this.screenPreviousPosition.setEntry(0, engine.getGameMetrics().adjustX((float) previousPosition.getEntry(0)));
+    this.screenPreviousPosition.setEntry(1, engine.getGameMetrics().adjustY((float) previousPosition.getEntry(1)));
   }
 
   public RealVector getDirection() {
@@ -120,7 +137,11 @@ public abstract class GameObject implements Updatable, Renderable {
   }
 
   public void setSize(RealVector size) {
-    this.size = size;
+    this.size.setEntry(0, size.getEntry(0));
+    this.size.setEntry(1, size.getEntry(1));
+
+    this.screenSize.setEntry(0, engine.getGameMetrics().adjust((float) size.getEntry(0)));
+    this.screenSize.setEntry(1, engine.getGameMetrics().adjust((float) size.getEntry(1)));
   }
 
   public float getVelocity() {
@@ -129,6 +150,7 @@ public abstract class GameObject implements Updatable, Renderable {
 
   public void setVelocity(float velocity) {
     this.velocity = velocity;
+    this.screenVelocity = engine.getGameMetrics().adjust(velocity);
   }
 
   public Image getImage() {

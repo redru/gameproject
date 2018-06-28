@@ -5,15 +5,14 @@ import com.zen.snake2.level.one.LevelOne;
 import com.zen.snake2.level.title.LevelTitleScreen;
 import com.zen.gamelib.core.GameConfiguration;
 import com.zen.gamelib.core.GameEngine;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 
 public class Snake2 {
 
   public static void main(String[] args) {
     GameConfiguration configuration = new GameConfiguration();
-//    configuration.setGameWindowDimension(Toolkit.getDefaultToolkit().getScreenSize());
     configuration.setWindowDecorated(false);
+//    configuration.setGameWindowDimension(new Dimension(1000, 200));
     configuration.setFullScreen(true);
     configuration.setFps(60);
 

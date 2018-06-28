@@ -91,4 +91,8 @@ public class GameWindow {
     return canvas;
   }
 
+  public Dimension getSize() {
+    return size;
+  }
+
 }

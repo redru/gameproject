@@ -18,7 +18,6 @@ public class GameConfiguration {
   @Override
   public String toString() {
     return "[CONFIGURATION] Title: " + this.title
-        + "\n[CONFIGURATION] Window Dimension: " + this.gameWindowDimension.getWidth() + " x " + this.gameWindowDimension.getHeight() + " px"
         + "\n[CONFIGURATION] Window Decoration: " + this.windowDecorated
         + "\n[CONFIGURATION] Resources: " + this.resourcesFile
         + "\n[CONFIGURATION] FPS: " + this.fps
