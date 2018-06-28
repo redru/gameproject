@@ -11,6 +11,7 @@ public class GameConfiguration {
   private long fpsTime;
   private float fpsTimeInSeconds;
   private boolean windowDecorated;
+  private boolean fullScreen;
 
   public GameConfiguration() { }
 
@@ -72,6 +73,14 @@ public class GameConfiguration {
 
   public void setWindowDecorated(boolean windowDecorated) {
     this.windowDecorated = windowDecorated;
+  }
+
+  public boolean isFullScreen() {
+    return fullScreen;
+  }
+
+  public void setFullScreen(boolean fullScreen) {
+    this.fullScreen = fullScreen;
   }
 
 }

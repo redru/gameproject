@@ -12,8 +12,9 @@ public class Snake2 {
 
   public static void main(String[] args) {
     GameConfiguration configuration = new GameConfiguration();
-    configuration.setGameWindowDimension(Toolkit.getDefaultToolkit().getScreenSize());
+//    configuration.setGameWindowDimension(Toolkit.getDefaultToolkit().getScreenSize());
     configuration.setWindowDecorated(false);
+    configuration.setFullScreen(true);
     configuration.setFps(60);
 
     GameEngine engine = GameEngine.getInstance();

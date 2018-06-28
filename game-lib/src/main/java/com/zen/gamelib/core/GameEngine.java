@@ -31,7 +31,7 @@ public final class GameEngine {
     System.out.println(gameConfiguration);
 
     this.gameResources.loadResources(gameConfiguration.getResourcesFile());
-    this.gameWindow.initialize(gameConfiguration.getTitle(), gameConfiguration.getGameWindowDimension(), gameConfiguration.isWindowDecorated());
+    this.gameWindow.initialize(gameConfiguration);
     this.gameWindow.setOnCloseEvent(() -> this.running = false);
     this.keyboardInputHandler.initialize(this.gameWindow.getKeyEventContext());
   }

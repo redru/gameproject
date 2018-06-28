@@ -1,10 +1,12 @@
 package com.zen.gamelib.graphics;
 
+import com.zen.gamelib.core.GameConfiguration;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
@@ -23,15 +25,21 @@ public class GameWindow {
 
   public GameWindow() { }
 
-  public void initialize(String title, Dimension size, boolean decorated) {
-    this.title = title;
-    this.size = size;
+  public void initialize(GameConfiguration configuration) {
+    this.title = configuration.getTitle();
 
-    this.frame.setTitle(title);
+    this.frame.setTitle(this.title);
     this.frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-    this.frame.setUndecorated(!decorated);
+    this.frame.setUndecorated(!configuration.isWindowDecorated());
 
-    this.canvas.setSize(size);
+    if (configuration.isFullScreen()) {
+      this.size = Toolkit.getDefaultToolkit().getScreenSize();
+      this.frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+    } else {
+      this.size = configuration.getGameWindowDimension();
+    }
+
+    this.canvas.setSize(this.size);
 
     this.frame.add(canvas);
     this.frame.pack();
