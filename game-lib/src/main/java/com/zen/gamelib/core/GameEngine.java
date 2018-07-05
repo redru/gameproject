@@ -7,8 +7,6 @@ import com.zen.gamelib.objects.GameObject;
 import com.zen.gamelib.resources.GameResources;
 import com.zen.gamelib.util.GameMetrics;
 import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.util.List;
 import java.util.UUID;
 
 public final class GameEngine {
@@ -150,10 +148,6 @@ public final class GameEngine {
     if (gameConfiguration.getFps() < 0 || gameConfiguration.getFps() > 120) {
       gameConfiguration.setFps(30);
     }
-  }
-
-  public boolean isRunning() {
-    return this.running;
   }
 
   public boolean isPaused() {

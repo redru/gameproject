@@ -10,12 +10,15 @@ import org.apache.commons.math3.linear.RealVector;
 
 public class SnakeHead extends GameObject implements InputEventListener {
 
+  private static final float TIME_TO_MOVE = 0.075F; // Seconds
+  private float timeFromLastMove = 0; // Seconds
+
   public SnakeHead() {
     super("SNAKE_HEAD");
 
     setGroup("SNAKE");
-    setVelocity(250);
-    setSize(new ArrayRealVector(new double[]{ 15, 15 }));
+    setVelocity(12.5F);
+    setSize(new ArrayRealVector(new double[]{ 12.5, 12.5 }));
     setDirection(new ArrayRealVector(new double[]{ 0, 0 }));
     setPosition(new ArrayRealVector(new double[]{ 500, 500 }));
     setPreviousPosition(new ArrayRealVector(new double[]{ 500, 500 }));
@@ -26,8 +29,15 @@ public class SnakeHead extends GameObject implements InputEventListener {
 
   @Override
   public void update() {
+    if (timeFromLastMove < SnakeHead.TIME_TO_MOVE) {
+      timeFromLastMove += engine.getElapsedTimeInSeconds();
+      return;
+    }
+
     RealVector newPosition = getPosition()
-        .add(getDirection().mapMultiply(getVelocity() * engine.getElapsedTimeInSeconds()));
+        .add(getDirection().mapMultiply(getVelocity()));
+
+    timeFromLastMove = 0;
 
     setPreviousPosition(getPosition());
     setPosition(newPosition);
@@ -40,10 +50,10 @@ public class SnakeHead extends GameObject implements InputEventListener {
   public void render(Graphics2D context) {
     context.setColor(Color.RED);
     context.fillArc(
-        (int) getX(),
-        (int) getY(),
-        (int) getWidth(),
-        (int) getHeight(),
+        getScreenX(),
+        getScreenY(),
+        getScreenWidth(),
+        getScreenWidth(),
         0,
         360
     );

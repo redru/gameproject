@@ -112,6 +112,14 @@ public abstract class GameObject implements Updatable, Renderable {
     this.screenPosition.setEntry(1, engine.getGameMetrics().adjustY((float) position.getEntry(1)));
   }
 
+  public RealVector getScreenPosition() {
+    return screenPosition;
+  }
+
+  public void setScreenPosition(RealVector screenPosition) {
+    this.screenPosition = screenPosition;
+  }
+
   public RealVector getPreviousPosition() {
     return previousPosition;
   }
@@ -144,6 +152,14 @@ public abstract class GameObject implements Updatable, Renderable {
     this.screenSize.setEntry(1, engine.getGameMetrics().adjust((float) size.getEntry(1)));
   }
 
+  public RealVector getScreenSize() {
+    return screenSize;
+  }
+
+  public void setScreenSize(RealVector screenSize) {
+    this.screenSize = screenSize;
+  }
+
   public float getVelocity() {
     return velocity;
   }
@@ -151,6 +167,14 @@ public abstract class GameObject implements Updatable, Renderable {
   public void setVelocity(float velocity) {
     this.velocity = velocity;
     this.screenVelocity = engine.getGameMetrics().adjust(velocity);
+  }
+
+  public float getScreenVelocity() {
+    return screenVelocity;
+  }
+
+  public void setScreenVelocity(float screenVelocity) {
+    this.screenVelocity = screenVelocity;
   }
 
   public Image getImage() {
@@ -169,16 +193,32 @@ public abstract class GameObject implements Updatable, Renderable {
     return this.position.getEntry(0);
   }
 
+  public int getScreenX() {
+    return (int) this.screenPosition.getEntry(0);
+  }
+
   public double getY() {
     return this.position.getEntry(1);
+  }
+
+  public int getScreenY() {
+    return (int) this.screenPosition.getEntry(1);
   }
 
   public double getWidth() {
     return this.size.getEntry(0);
   }
 
+  public int getScreenWidth() {
+    return (int) this.screenSize.getEntry(0);
+  }
+
   public double getHeight() {
     return this.size.getEntry(1);
+  }
+
+  public int getScreenHeight() {
+    return (int) this.screenSize.getEntry(1);
   }
 
 }
