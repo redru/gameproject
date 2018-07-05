@@ -4,6 +4,7 @@ import com.zen.gamelib.core.GameEngine;
 import com.zen.gamelib.core.InputEventListener;
 import com.zen.gamelib.objects.GameObject;
 import com.zen.gamelib.util.GameObjectList;
+import java.awt.Graphics2D;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,6 +14,8 @@ public abstract class Level {
   protected String name;
   protected boolean loaded;
   protected boolean cacheable;
+
+  protected GameEngine engine = GameEngine.getInstance();
 
   protected GameObjectList objectsList;
   protected List<InputEventListener> inputEventListenerList =
@@ -30,6 +33,32 @@ public abstract class Level {
     for (GameObject object : objectsList.getList()) {
       if (object instanceof InputEventListener) {
         inputEventListenerList.add((InputEventListener) object);
+      }
+    }
+  }
+
+  public void update() {
+    List<GameObject> list = this.objectsList.getList();
+
+    if (!engine.isPaused()) {
+      for (GameObject object : list) {
+        if (object.isActive()) object.preUpdate();
+      }
+
+      for (GameObject object : list) {
+        if (object.isActive()) object.update();
+      }
+
+      for (GameObject object : list) {
+        if (object.isActive()) object.postUpdate();
+      }
+    }
+  }
+
+  public void render(Graphics2D context) {
+    for (GameObject object : this.objectsList.getList()) {
+      if (object.isActive() && !object.isHidden()) {
+        object.render(context);
       }
     }
   }

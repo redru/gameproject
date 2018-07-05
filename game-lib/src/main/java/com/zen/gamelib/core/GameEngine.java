@@ -67,7 +67,7 @@ public final class GameEngine {
       // Process key input
       this.keyboardInputHandler.processCallbacks(this.level.getInputEventListenerList());
 
-      this.update();
+      this.level.update();
       this.render();
 
       lastTime = currentTime;
@@ -77,35 +77,9 @@ public final class GameEngine {
     this.shutdownGameEngine();
   }
 
-  private void update() {
-    List<GameObject> list = this.level.getObjectsList().getList();
-
-    if (!paused) {
-      for (GameObject object : list) {
-        if (object.isActive()) object.preUpdate();
-      }
-
-      for (GameObject object : list) {
-        if (object.isActive()) object.update();
-      }
-
-      for (GameObject object : list) {
-        if (object.isActive()) object.postUpdate();
-      }
-    }
-  }
-
   private void render() {
     this.gameWindow.clear();
-
-    Graphics2D context = this.gameWindow.getContext();
-
-    for (GameObject object : this.level.getObjectsList().getList()) {
-      if (object.isActive() && !object.isHidden()) {
-        object.render(context);
-      }
-    }
-
+    this.level.render(this.gameWindow.getContext());
     this.gameWindow.render();
   }
 
