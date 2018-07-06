@@ -17,18 +17,12 @@ public class Background extends GameObject {
   }
 
   @Override
-  public void preUpdate() {
-
-  }
+  public void preUpdate() { }
 
   @Override
-  public void update() {
-
-  }
+  public void update() { }
 
   @Override
-  public void postUpdate() {
-
-  }
+  public void postUpdate() { }
 
 }

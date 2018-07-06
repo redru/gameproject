@@ -1,5 +1,6 @@
 package com.zen.gamelib.level;
 
+import com.zen.gamelib.collisions.Collidable;
 import com.zen.gamelib.core.GameEngine;
 import com.zen.gamelib.core.InputEventListener;
 import com.zen.gamelib.objects.GameObject;
@@ -21,23 +22,30 @@ public abstract class Level {
   protected List<InputEventListener> inputEventListenerList =
       Collections.synchronizedList(new LinkedList<>());
 
+  protected List<GameObject> collidablesList =
+      Collections.synchronizedList(new LinkedList<>());
+
   public Level(String name, int totalObjects, boolean cacheable) {
     this.name = name;
     this.objectsList = new GameObjectList(totalObjects);
     this.cacheable = cacheable;
   }
 
-  public void load(GameEngine engine) { }
+  public void load() { }
 
-  public final void onLoaded(GameEngine engine) {
+  public final void onLoaded() {
     for (GameObject object : objectsList.getList()) {
       if (object instanceof InputEventListener) {
-        inputEventListenerList.add((InputEventListener) object);
+        this.inputEventListenerList.add((InputEventListener) object);
+      }
+
+      if (object instanceof Collidable) {
+        this.collidablesList.add(object);
       }
     }
   }
 
-  public void update() {
+  public final void update() {
     List<GameObject> list = this.objectsList.getList();
 
     if (!engine.isPaused()) {
@@ -55,7 +63,7 @@ public abstract class Level {
     }
   }
 
-  public void render(Graphics2D context) {
+  public final void render(Graphics2D context) {
     for (GameObject object : this.objectsList.getList()) {
       if (object.isActive() && !object.isHidden()) {
         object.render(context);
@@ -63,7 +71,13 @@ public abstract class Level {
     }
   }
 
-  public void onLoadedFromCache(GameEngine engine) { }
+  public final void checkCollisions() {
+    for (GameObject object : this.collidablesList) {
+
+    }
+  }
+
+  public void onLoadedFromCache() { }
 
   public String getName() {
     return name;

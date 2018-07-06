@@ -66,6 +66,7 @@ public final class GameEngine {
       this.keyboardInputHandler.processCallbacks(this.level.getInputEventListenerList());
 
       this.level.update();
+      this.level.checkCollisions();
       this.render();
 
       lastTime = currentTime;
@@ -109,14 +110,14 @@ public final class GameEngine {
   }
 
   private void loadCachedLevel(Level level) {
-    level.onLoadedFromCache(this);
+    level.onLoadedFromCache();
     System.out.println("[ENGINE] Getting from cache level " + level.getName());
   }
 
   private void loadNewLevel(Level level) {
     level.getObjectsList().clear();
-    level.load(this);
-    level.onLoaded(this);
+    level.load();
+    level.onLoaded();
     level.setLoaded(true);
 
     System.out.println("[ENGINE] Loaded level: " + level.getName()

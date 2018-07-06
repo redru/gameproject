@@ -1,9 +1,7 @@
 package com.zen.snake2.level.title;
 
-import com.zen.gamelib.core.GameEngine;
 import com.zen.gamelib.exception.ObjectsLimitException;
 import com.zen.gamelib.level.Level;
-import com.zen.gamelib.objects.GameObject;
 import com.zen.snake2.objects.Background;
 
 public class LevelTitleScreen extends Level {
@@ -13,7 +11,7 @@ public class LevelTitleScreen extends Level {
   }
 
   @Override
-  public void load(GameEngine engine) {
+  public void load() {
     try {
       getObjectsList().addGameObject(new Background("title_bg"));
     } catch (ObjectsLimitException | Exception e) {

@@ -1,5 +1,7 @@
 package com.zen.snake2.objects;
 
+import com.zen.gamelib.collisions.Collidable;
+import com.zen.gamelib.collisions.Collision;
 import com.zen.gamelib.core.InputEventListener;
 import com.zen.gamelib.objects.GameObject;
 import java.awt.Color;
@@ -8,9 +10,11 @@ import java.awt.event.KeyEvent;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
 
-public class SnakeHead extends GameObject implements InputEventListener {
+public class SnakeHead extends GameObject implements InputEventListener, Collidable {
 
+  public static final String SNAKE_TAIL = "0";
   private static final float TIME_TO_MOVE = 0.075F; // Seconds
+
   private float timeFromLastMove = 0; // Seconds
 
   public SnakeHead() {
@@ -22,6 +26,7 @@ public class SnakeHead extends GameObject implements InputEventListener {
     setDirection(new ArrayRealVector(new double[]{ 0, 0 }));
     setPosition(new ArrayRealVector(new double[]{ 500, 500 }));
     setPreviousPosition(new ArrayRealVector(new double[]{ 500, 500 }));
+    getProperties().put(SnakeHead.SNAKE_TAIL, this);
   }
 
   @Override
@@ -45,6 +50,11 @@ public class SnakeHead extends GameObject implements InputEventListener {
 
   @Override
   public void postUpdate() { }
+
+  @Override
+  public void onCollision(Collision collision) {
+    System.out.println("[COLLISION] SnakeHead collided with: " + collision.getCollisionObject().getName());
+  }
 
   @Override
   public void render(Graphics2D context) {
