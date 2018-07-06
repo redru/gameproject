@@ -31,7 +31,9 @@ public abstract class GameObject implements Updatable, Renderable {
   protected RealVector previousPosition = new ArrayRealVector(new double[2]);
   protected RealVector screenPreviousPosition = new ArrayRealVector(new double[2]);
 
+  protected RealVector center = new ArrayRealVector(new double[2]);
   protected RealVector direction = new ArrayRealVector(new double[2]);
+
   protected Image image;
   protected Map<String, Object> properties = new Hashtable<>(100);
 
@@ -110,6 +112,9 @@ public abstract class GameObject implements Updatable, Renderable {
 
     this.screenPosition.setEntry(0, engine.getGameMetrics().adjustX((float) position.getEntry(0)));
     this.screenPosition.setEntry(1, engine.getGameMetrics().adjustY((float) position.getEntry(1)));
+
+    this.center.setEntry( 0, this.position.getEntry(0) + this.size.getEntry(0) / 2);
+    this.center.setEntry( 1, this.position.getEntry(1) + this.size.getEntry(1) / 2);
   }
 
   public RealVector getScreenPosition() {
@@ -121,6 +126,9 @@ public abstract class GameObject implements Updatable, Renderable {
 
     this.position.setEntry(0, engine.getGameMetrics().reverseAdjustX((float) position.getEntry(0)));
     this.position.setEntry(1, engine.getGameMetrics().reverseAdjustY((float) position.getEntry(1)));
+
+    this.center.setEntry( 0, this.position.getEntry(0) + this.size.getEntry(0) / 2);
+    this.center.setEntry( 1, this.position.getEntry(1) + this.size.getEntry(1) / 2);
   }
 
   public RealVector getPreviousPosition() {
@@ -143,6 +151,10 @@ public abstract class GameObject implements Updatable, Renderable {
 
     this.previousPosition.setEntry(0, engine.getGameMetrics().reverseAdjustX((float) previousPosition.getEntry(0)));
     this.previousPosition.setEntry(1, engine.getGameMetrics().reverseAdjustY((float) previousPosition.getEntry(1)));
+  }
+
+  public RealVector getCenter() {
+    return center;
   }
 
   public RealVector getDirection() {

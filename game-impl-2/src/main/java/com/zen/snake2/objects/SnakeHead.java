@@ -53,7 +53,7 @@ public class SnakeHead extends GameObject implements InputEventListener, Collida
 
   @Override
   public void onCollision(Collision collision) {
-    System.out.println("[COLLISION] SnakeHead collided with: " + collision.getCollisionObject().getName());
+    System.out.println("[COLLISION] SnakeHead collided with: " + collision.getCollisionObject());
   }
 
   @Override

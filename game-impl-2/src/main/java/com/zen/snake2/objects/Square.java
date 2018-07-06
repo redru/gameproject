@@ -1,12 +1,14 @@
 package com.zen.snake2.objects;
 
+import com.zen.gamelib.collisions.Collidable;
+import com.zen.gamelib.collisions.Collision;
 import com.zen.gamelib.objects.GameObject;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import org.apache.commons.math3.linear.ArrayRealVector;
 
-public class Square extends GameObject {
+public class Square extends GameObject implements Collidable {
 
   public Square(String name) {
     super(name);
@@ -36,6 +38,11 @@ public class Square extends GameObject {
         getY() < 0 - getHeight() * 2 || getY() > engine.getGameWindow().getSize().getHeight() + getHeight()) {
       active = false;
     }
+  }
+
+  @Override
+  public void onCollision(Collision collision) {
+
   }
 
   @Override

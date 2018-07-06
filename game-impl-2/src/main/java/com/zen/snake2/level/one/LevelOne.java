@@ -2,6 +2,7 @@ package com.zen.snake2.level.one;
 
 import com.zen.gamelib.exception.ObjectsLimitException;
 import com.zen.gamelib.level.Level;
+import com.zen.snake2.level.collisions.BoundingBoxCollisionStrategy;
 import com.zen.snake2.objects.SnakeHead;
 import com.zen.snake2.objects.Square;
 
@@ -14,6 +15,8 @@ public class LevelOne extends Level {
   @Override
   public void load() {
     try {
+      collisionStrategy = new BoundingBoxCollisionStrategy();
+
       objectsList.addGameObject(new LevelOneScript("LEVEL_ONE_CORE"));
       objectsList.addGameObject(new SnakeHead());
 

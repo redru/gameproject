@@ -1,6 +1,8 @@
 package com.zen.gamelib.level;
 
 import com.zen.gamelib.collisions.Collidable;
+import com.zen.gamelib.collisions.Collision;
+import com.zen.gamelib.collisions.CollisionStrategy;
 import com.zen.gamelib.core.GameEngine;
 import com.zen.gamelib.core.InputEventListener;
 import com.zen.gamelib.objects.GameObject;
@@ -17,6 +19,7 @@ public abstract class Level {
   protected boolean cacheable;
 
   protected GameEngine engine = GameEngine.getInstance();
+  protected CollisionStrategy collisionStrategy;
 
   protected GameObjectList objectsList;
   protected List<InputEventListener> inputEventListenerList =
@@ -72,8 +75,25 @@ public abstract class Level {
   }
 
   public final void checkCollisions() {
-    for (GameObject object : this.collidablesList) {
+    if (this.collisionStrategy != null) {
+      int counter = 0;
 
+      for (GameObject object1 : this.collidablesList) {
+        for (int i = counter; i < this.collidablesList.size(); i++) {
+          GameObject object2 = this.collidablesList.get(i);
+
+          if (object1.getId() != object2.getId()
+              && this.collisionStrategy.checkCollision(object1, object2)) {
+            Collidable collidable_1 = (Collidable) object1;
+            Collidable collidable_2 = (Collidable) object2;
+
+            collidable_1.onCollision(new Collision(object2));
+            collidable_2.onCollision(new Collision(object1));
+          }
+        }
+
+        counter++;
+      }
     }
   }
 
@@ -101,6 +121,14 @@ public abstract class Level {
 
   public void setCacheable(boolean cacheable) {
     this.cacheable = cacheable;
+  }
+
+  public CollisionStrategy getCollisionStrategy() {
+    return collisionStrategy;
+  }
+
+  public void setCollisionStrategy(CollisionStrategy collisionStrategy) {
+    this.collisionStrategy = collisionStrategy;
   }
 
   public GameObjectList getObjectsList() {
