@@ -29,18 +29,18 @@ public class SnakeHead extends GameObject implements InputEventListener {
 
   @Override
   public void update() {
-    if (timeFromLastMove < SnakeHead.TIME_TO_MOVE) {
-      timeFromLastMove += engine.getElapsedTimeInSeconds();
+    if (this.timeFromLastMove < SnakeHead.TIME_TO_MOVE) {
+      this.timeFromLastMove += engine.getElapsedTimeInSeconds();
       return;
     }
 
-    RealVector newPosition = getPosition()
-        .add(getDirection().mapMultiply(getVelocity()));
+    RealVector newPosition = getScreenPosition()
+        .add(getDirection().mapMultiply(getScreenVelocity()));
 
-    timeFromLastMove = 0;
+    this.timeFromLastMove = 0;
 
-    setPreviousPosition(getPosition());
-    setPosition(newPosition);
+    setScreenPreviousPosition(getScreenPosition());
+    setScreenPosition(newPosition);
   }
 
   @Override

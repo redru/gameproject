@@ -22,12 +22,24 @@ public class GameMetrics {
     return this.generalRatio * rawUnit;
   }
 
+  public float reverseAdjust(float rawUnit) {
+    return this.generalRatio / rawUnit;
+  }
+
   public float adjustX(float rawUnit) {
     return rawUnit * this.xRatio;
   }
 
+  public float reverseAdjustX(float rawUnit) {
+    return rawUnit / this.xRatio;
+  }
+
   public float adjustY(float rawUnit) {
     return rawUnit * this.yRatio;
+  }
+
+  public float reverseAdjustY(float rawUnit) {
+    return rawUnit / this.yRatio;
   }
 
 }

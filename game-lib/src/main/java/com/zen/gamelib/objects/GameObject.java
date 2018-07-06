@@ -118,6 +118,9 @@ public abstract class GameObject implements Updatable, Renderable {
 
   public void setScreenPosition(RealVector screenPosition) {
     this.screenPosition = screenPosition;
+
+    this.position.setEntry(0, engine.getGameMetrics().reverseAdjustX((float) position.getEntry(0)));
+    this.position.setEntry(1, engine.getGameMetrics().reverseAdjustY((float) position.getEntry(1)));
   }
 
   public RealVector getPreviousPosition() {
@@ -125,11 +128,21 @@ public abstract class GameObject implements Updatable, Renderable {
   }
 
   public void setPreviousPosition(RealVector previousPosition) {
-    this.previousPosition.setEntry(0, previousPosition.getEntry(0));
-    this.previousPosition.setEntry(1, previousPosition.getEntry(1));
+    this.previousPosition = previousPosition;
 
     this.screenPreviousPosition.setEntry(0, engine.getGameMetrics().adjustX((float) previousPosition.getEntry(0)));
     this.screenPreviousPosition.setEntry(1, engine.getGameMetrics().adjustY((float) previousPosition.getEntry(1)));
+  }
+
+  public RealVector getScreenPreviousPosition() {
+    return screenPreviousPosition;
+  }
+
+  public void setScreenPreviousPosition(RealVector screenPreviousPosition) {
+    this.screenPreviousPosition = screenPreviousPosition;
+
+    this.previousPosition.setEntry(0, engine.getGameMetrics().reverseAdjustX((float) previousPosition.getEntry(0)));
+    this.previousPosition.setEntry(1, engine.getGameMetrics().reverseAdjustY((float) previousPosition.getEntry(1)));
   }
 
   public RealVector getDirection() {
@@ -145,8 +158,7 @@ public abstract class GameObject implements Updatable, Renderable {
   }
 
   public void setSize(RealVector size) {
-    this.size.setEntry(0, size.getEntry(0));
-    this.size.setEntry(1, size.getEntry(1));
+    this.size = size;
 
     this.screenSize.setEntry(0, engine.getGameMetrics().adjust((float) size.getEntry(0)));
     this.screenSize.setEntry(1, engine.getGameMetrics().adjust((float) size.getEntry(1)));
@@ -158,6 +170,9 @@ public abstract class GameObject implements Updatable, Renderable {
 
   public void setScreenSize(RealVector screenSize) {
     this.screenSize = screenSize;
+
+    this.size.setEntry(0, engine.getGameMetrics().reverseAdjustX((float) size.getEntry(0)));
+    this.size.setEntry(1, engine.getGameMetrics().reverseAdjustY((float) size.getEntry(1)));
   }
 
   public float getVelocity() {
